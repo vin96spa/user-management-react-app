@@ -1,0 +1,19 @@
+import { Navigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+
+interface Props {
+    children: React.ReactNode;
+    requireAdmin?: boolean;
+}
+
+export default function ProtectedRoute({ children, requireAdmin = false }: Props) {
+    const { userId, isAdmin } = useAuthStore((state) => ({
+        userId: state.userId,
+        isAdmin: state.isAdmin,
+    }));
+
+    if (requireAdmin && !isAdmin) return <Navigate to="/admin" replace />;
+    if (!requireAdmin && !userId) return <Navigate to="/register" replace />;
+
+    return <>{children}</>;
+}
