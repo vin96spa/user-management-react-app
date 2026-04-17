@@ -14,7 +14,7 @@ export const apiClient = async (endpoint: string, options?: RequestInit, token?:
 
     if (!res.ok) {
         const error = await res.json().catch(() => ({}));
-        throw new Error(error?.message ?? "API error");
+        throw error;
     }
 
     // 204 No Content (e.g. DELETE) has no body, so return null instead of attempting to parse res.json()

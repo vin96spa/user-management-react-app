@@ -5,3 +5,5 @@ export interface User {
     gender: "male" | "female";
     status: "active" | "inactive";
 }
+
+export type CreateUserPayload = Omit<User, "id">;
