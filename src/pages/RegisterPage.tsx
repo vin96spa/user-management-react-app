@@ -11,7 +11,6 @@ export default function RegisterPage() {
     const login = useAuthStore((state) => state.login);
     const [apiError, setApiError] = useState<string | null>(null);
 
-
     const generateEmail = (name: string) => {
         const normalized = name.toLowerCase().replace(/\s+/g, ".");
         return `${normalized}.${Math.floor(Math.random() * 10000)}@test.com`;
@@ -41,7 +40,7 @@ export default function RegisterPage() {
         try {
             const { token, ...userData } = data;
             const newUser = await createUser(userData, token);
-            login(newUser.id, token);
+            login(newUser.id, token, newUser.name);
             navigate("/posts");
         } catch (error) {
             setApiError(JSON.stringify(error));
