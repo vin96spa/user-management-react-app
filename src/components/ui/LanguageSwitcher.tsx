@@ -1,6 +1,10 @@
 import { useTranslation } from "react-i18next";
 
-export default function LanguageSwitcher() {
+interface Props {
+    variant?: "light" | "dark";
+}
+
+export default function LanguageSwitcher({ variant = "light" }: Props) {
     const { i18n } = useTranslation();
 
     const toggleLanguage = () => {
@@ -11,7 +15,10 @@ export default function LanguageSwitcher() {
     return (
         <button
             onClick={toggleLanguage}
-            className="text-sm px-3 py-1 rounded border transition-colors cursor-pointer hover:bg-gray-50 hover:text-gray-700"
+            className={`text-sm px-3 py-1 rounded border transition-colors cursor-pointer ${variant === "dark"
+                    ? "border-gray-500 text-gray-300 hover:bg-gray-700"
+                    : "border-gray-300 text-gray-600 hover:bg-gray-100"
+                }`}
         >
             {i18n.language.startsWith("it") ? "🇬🇧 EN" : "🇮🇹 IT"}
         </button>

@@ -49,46 +49,44 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <div className="bg-white p-8 rounded shadow w-full max-w-md">
-                <div className="flex center items-center justify-between mb-6">
-                    <h1 className="text-2xl font-bold mb-6">{t("login.title")}</h1>
-                    <Link to="/register" className="text-sm text-blue-600 hover:underline mb-4 inline-block">
-                        {t("login.noAccount")}
-                    </Link>
+        <div className="bg-white p-8 rounded shadow shadow-blue-100 w-full max-w-md">
+            <div className="flex center items-center justify-between mb-6">
+                <h1 className="text-2xl font-bold mb-6">{t("login.title")}</h1>
+                <Link to="/register" className="text-sm text-blue-600 hover:underline mb-4 inline-block">
+                    {t("login.noAccount")}
+                </Link>
+            </div>
+
+
+            {apiError && (
+                <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">
+                    {apiError}
                 </div>
-                
+            )}
 
-                {apiError && (
-                    <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">
-                        {apiError}
-                    </div>
-                )}
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
 
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+                <div>
+                    <label className="block text-sm font-medium mb-1">{t("login.email")}</label>
+                    <input
+                        {...register("email")}
+                        type="email"
+                        className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    {errors.email && (
+                        <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+                    )}
+                </div>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-1">{t("login.email")}</label>
-                        <input
-                            {...register("email")}
-                            type="email"
-                            className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        {errors.email && (
-                            <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
-                        )}
-                    </div>
+                <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
+                >
+                    {isSubmitting ? t("login.submitting") : t("login.submit")}
+                </button>
 
-                    <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
-                    >
-                        {isSubmitting ? t("login.submitting") : t("login.submit")}
-                    </button>
-
-                </form>
-            </div >
+            </form>
         </div >
     );
 }
