@@ -28,14 +28,14 @@ export default function PostCard({ post }: Props) {
             <div className="flex gap-3 mt-3">
                 <button
                     onClick={() => setShowComments((prev) => !prev)}
-                    className="text-sm text-blue-600 hover:underline"
+                    className="text-sm text-blue-600 hover:underline cursor-pointer"
                 >
                     {showComments ? "Hide Comments" : "💬 Comments"}
                 </button>
 
                 <button
                     onClick={handleShare}
-                    className="text-sm text-blue-600 hover:underline"
+                    className="text-sm text-blue-600 hover:underline cursor-pointer"
                 >
                     {copied ? "✅ Copied!" : "🔗 Share"}
                 </button>
