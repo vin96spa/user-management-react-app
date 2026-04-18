@@ -15,7 +15,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
     return (
         <div className="min-h-screen flex">
-            <aside className="w-64 bg-gray-900 text-white p-4 flex flex-col">
+            <aside className="fixed top-0 left-0 h-screen w-64 bg-gray-900 text-white p-4 flex flex-col">
                 <h1 className="text-xl font-bold mb-6">{ userName }</h1>
 
                 <nav className="flex flex-col gap-3">
@@ -37,7 +37,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 </button>
             </aside>
 
-            <main className="flex-1 p-6 bg-gray-100">
+            <main className="ml-64 flex-1 p-6 bg-gray-100 min-h-screen overflow-y-auto">
                 {children}
             </main>
         </div>

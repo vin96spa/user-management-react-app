@@ -40,7 +40,7 @@ export default function RegisterPage() {
         try {
             const { token, ...userData } = data;
             const newUser = await createUser(userData, token);
-            login(newUser.id, token, newUser.name);
+            login(newUser.id, token, newUser.name, newUser.email);
             navigate("/posts");
         } catch (error) {
             setApiError(JSON.stringify(error));

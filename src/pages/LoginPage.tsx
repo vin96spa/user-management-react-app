@@ -31,12 +31,13 @@ export default function LoginPage() {
         try {
             const user = await getUserByEmail(data.email, data.token);
             if (data.email == "admin@admin.com") {
-                login(user[0].id, data.token, user[0].name);
+                login(user[0].id, data.token, user[0].name, user[0].email);
                 useAuthStore.setState({ isAdmin: true });
                 navigate("/admin/dashboard");
                 return;
             }
-            login(user[0].id, data.token, user[0].name);
+            login(user[0].id, data.token, user[0].name, user[0].email);
+            useAuthStore.setState({ isAdmin: false });
             navigate("/posts");
         } catch (error) {
             setApiError(JSON.stringify(error));
