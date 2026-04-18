@@ -19,8 +19,8 @@ export const updateUser = (id: number, payload: Partial<CreateUserPayload>, toke
 export const deleteUser = (id: number, token: string) =>
     apiClient(`/users/${id}`, { method: "DELETE" }, token);
 
-export const getUserPosts = (userId: number, token: string) =>
-    apiClient(`/users/${userId}/posts`, { method: "GET" }, token);
+export const blockUser = (id: number, token: string) =>
+    apiClient(`/users/${id}`, { method: "PATCH", body: JSON.stringify({ status: "inactive" }) }, token);
 
-export const getPostComments = (postId: number, token: string) =>
-    apiClient(`/posts/${postId}/comments`, { method: "GET" }, token);
+export const unblockUser = (id: number, token: string) =>
+    apiClient(`/users/${id}`, { method: "PATCH", body: JSON.stringify({ status: "active" }) }, token);

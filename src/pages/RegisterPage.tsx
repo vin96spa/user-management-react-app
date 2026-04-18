@@ -5,6 +5,10 @@ import { useState } from "react";
 import { type RegisterFormData, registerSchema } from "../validations/registerSchema";
 import { createUser } from "../api/users";
 import { useAuthStore } from "../store/authStore";
+import UserForm from "../components/UserForm";
+import { FormProvider } from "react-hook-form";
+
+
 
 export default function RegisterPage() {
     const navigate = useNavigate();
@@ -16,11 +20,7 @@ export default function RegisterPage() {
         return `${normalized}.${Math.floor(Math.random() * 10000)}@test.com`;
     };
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-    } = useForm<RegisterFormData>({
+    const methods = useForm<RegisterFormData>({
         resolver: zodResolver(registerSchema),
         mode: "onTouched",
         defaultValues: {
@@ -30,16 +30,16 @@ export default function RegisterPage() {
         },
     });
 
-    
+    const { handleSubmit, formState: { isSubmitting } } = methods;
+
+
 
     const onSubmit = async (data: RegisterFormData) => {
         setApiError(null);
 
         try {
             const token = import.meta.env.VITE_API_TOKEN || "";
-            const status: "active" | "inactive" = "active";
-            const payload = { ...data, status };
-            const newUser = await createUser(payload, token);
+            const newUser = await createUser({ ...data, status: "active" }, token);
             login(newUser.id, token, newUser.name, newUser.email);
             navigate("/posts");
         } catch (error) {
@@ -62,67 +62,21 @@ export default function RegisterPage() {
                         {apiError}
                     </div>
                 )}
+                
+                <FormProvider {...methods}>
+                    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+                        <UserForm />
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
+                        >
+                            {isSubmitting ? "Creating account..." : "Register"}
+                        </button>
+                    </form>
+                </FormProvider>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-
-                    <div>
-                        <label className="block text-sm font-medium mb-1">Full Name</label>
-                        <input
-                            {...register("name")}
-                            className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        {errors.name && (
-                            <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
-                        )}
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium mb-1">Email</label>
-                        <input
-                            {...register("email")}
-                            type="email"
-                            className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        {errors.email && (
-                            <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
-                        )}
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium mb-1">Gender</label>
-                        <div className="flex gap-4">
-                            <label className="flex items-center gap-2">
-                                <input
-                                    type="radio"
-                                    value="male"
-                                    {...register("gender")}
-                                />
-                                Male
-                            </label>
-                            <label className="flex items-center gap-2">
-                                <input
-                                    type="radio"
-                                    value="female"
-                                    {...register("gender")}
-                                />
-                                Female
-                            </label>
-                        </div>
-                        {errors.gender && (
-                            <p className="text-red-500 text-xs mt-1">{errors.gender.message}</p>
-                        )}
-                    </div>
-
-            <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
-            >
-                {isSubmitting ? "Creating account..." : "Register"}
-            </button>
-
-        </form>
-      </div >
-    </div >
-  );
+            </div >
+        </div >
+    );
 }

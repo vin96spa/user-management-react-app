@@ -5,6 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { getUserById, updateUser, deleteUser } from "../api/users";
 import { useAuthStore } from "../store/authStore";
 import { type RegisterFormData, registerSchema } from "../validations/registerSchema";
+import UserForm from "../components/UserForm";
+import { FormProvider } from "react-hook-form";
 
 export default function UserSettingsPage() {
     const navigate = useNavigate();
@@ -17,14 +19,11 @@ export default function UserSettingsPage() {
     const [apiError, setApiError] = useState<string | null>(null);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors, isSubmitting, isDirty },
-    } = useForm<RegisterFormData>({
+    const methods = useForm<RegisterFormData>({
         resolver: zodResolver(registerSchema),
     });
+
+    const { handleSubmit, reset, formState: { isSubmitting, isDirty } } = methods;
 
     // load user data and pre-populate the form
     useEffect(() => {
@@ -87,65 +86,21 @@ export default function UserSettingsPage() {
             )}
 
             {/* Edit Form */}
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-                <div>
-                    <label className="block text-sm font-medium mb-1">Full Name</label>
-                    <input
-                        {...register("name")}
-                        className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    {errors.name && (
-                        <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
-                    )}
-                </div>
+            <FormProvider {...methods}>
 
-                <div>
-                    <label className="block text-sm font-medium mb-1">Email</label>
-                    <input
-                        {...register("email")}
-                        type="email"
-                        className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    {errors.email && (
-                        <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
-                    )}
-                </div>
+                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+                    <UserForm />
 
-                <div>
-                    <label className="block text-sm font-medium mb-1">Gender</label>
-                    <div className="flex gap-4">
-                        <label className="flex items-center gap-2">
-                            <input
-                                className="cursor-pointer"
-                                type="radio"
-                                value="male"
-                                {...register("gender")}
-                            />
-                            Male
-                        </label>
-                        <label className="flex items-center gap-2">
-                            <input
-                                className="cursor-pointer"
-                                type="radio"
-                                value="female"
-                                {...register("gender")}
-                            />
-                            Female
-                        </label>
-                    </div>
-                    {errors.gender && (
-                        <p className="text-red-500 text-xs mt-1">{errors.gender.message}</p>
-                    )}
-                </div>
+                    <button
+                        type="submit"
+                        disabled={isSubmitting || !isDirty}
+                        className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
+                    >
+                        {isSubmitting ? "Saving..." : "Save Changes"}
+                    </button>
+                </form>
+            </FormProvider>
 
-                <button
-                    type="submit"
-                    disabled={isSubmitting || !isDirty}
-                    className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
-                >
-                    {isSubmitting ? "Saving..." : "Save Changes"}
-                </button>
-            </form>
 
             {/* Delete section — visually separated */}
             <div className="mt-10 border-t pt-6">
