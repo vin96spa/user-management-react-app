@@ -7,10 +7,12 @@ import { createUser } from "../api/users";
 import { useAuthStore } from "../store/authStore";
 import UserForm from "../components/UserForm";
 import { FormProvider } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 
 
 export default function RegisterPage() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const login = useAuthStore((state) => state.login);
     const [apiError, setApiError] = useState<string | null>(null);
@@ -51,9 +53,9 @@ export default function RegisterPage() {
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded shadow w-full max-w-md">
                 <div className="flex center items-center justify-between mb-6">
-                    <h1 className="text-2xl font-bold mb-6">Create Account</h1>
+                    <h1 className="text-2xl font-bold mb-6">{t("register.title")}</h1>
                     <Link to="/login" className="text-sm text-blue-600 hover:underline mb-4 inline-block">
-                        Already have an account? Login
+                    {t("register.haveAccount")}
                     </Link>
                 </div>
 
@@ -71,7 +73,7 @@ export default function RegisterPage() {
                             disabled={isSubmitting}
                             className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
                         >
-                            {isSubmitting ? "Creating account..." : "Register"}
+                            {isSubmitting ? t("register.submitting") : t("register.submit")}
                         </button>
                     </form>
                 </FormProvider>

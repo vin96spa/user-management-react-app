@@ -1,0 +1,98 @@
+{
+    "nav": {
+        "posts": "Posts",
+        "settings": "Settings",
+        "logout": "Logout",
+        "admin": "Admin Dashboard"
+    },
+    "register": {
+        "title": "Create Account",
+        "name": "Full Name",
+        "email": "Email",
+        "gender": "Gender",
+        "genderMale": "Male",
+        "genderFemale": "Female",
+        "submit": "Register",
+        "submitting": "Creating account...",
+        "haveAccount": "Already have an account? Login"
+    },
+    "login": {
+        "title": "Login",
+        "email": "Email",
+        "submit": "Login",
+        "submitting": "Logging in...",
+        "noAccount": "Don't have an account? Register",
+        "emailNotFoundError": "No user found with this email."
+    },
+    "posts": {
+        "title": "Posts",
+        "myPosts": "My Posts",
+        "yourPosts": "Your published posts",
+        "othersPosts": "Posts by Other Users",
+        "allPosts": "All Posts",
+        "newPost": "+ New Post",
+        "noPostsYet": "No posts yet. Create your first one!",
+        "noPosts": "No posts found.",
+        "loading": "Loading posts...",
+        "share": "🔗 Share",
+        "copied": "✅ Copied!",
+        "comments": "💬 Comments",
+        "hideComments": "Hide Comments",
+        "newPostTitle": "Title",
+        "newPostBody": "Write your post...",
+        "publish": "Publish",
+        "publishing": "Publishing...",
+        "cancel": "Cancel"
+    },
+    "comments": {
+        "noComments": "No comments yet.",
+        "loading": "Loading comments...",
+        "bodyPlaceholder": "Write a comment...",
+        "submit": "Post Comment",
+        "submitting": "Posting..."
+    },
+    "settings": {
+        "title": "My Account",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "dangerZone": "Danger Zone",
+        "dangerZoneDesc": "Once you delete your account, there is no going back.",
+        "deleteAccount": "Delete Account",
+        "confirmDelete": "Are you sure? This action cannot be undone.",
+        "confirmDeleteBtn": "Yes, delete my account",
+        "loading": "Loading your account...",
+        "updateError": "Failed to update account. Please try again.",
+        "deleteError": "Failed to delete account. Please try again.",
+        "cancel": "Cancel"
+    },
+    "admin": {
+        "title": "Admin Dashboard",
+        "edit": "Edit",
+        "block": "Block",
+        "unblock": "Unblock",
+        "delete": "Delete",
+        "loading": "Loading users...",
+        "status": {
+            "active": "Active",
+            "inactive": "Inactive"
+        },
+        "editModal": {
+            "title": "Edit User",
+            "save": "Save Changes",
+            "saving": "Saving...",
+            "cancel": "Cancel"
+        },
+        "deleteModal": {
+            "title": "Delete User",
+            "message": "Are you sure you want to delete:",
+            "warning": "This action cannot be undone.",
+            "confirm": "Yes, delete",
+            "deleting": "Deleting...",
+            "cancel": "Cancel"
+        }
+    },
+    "common": {
+        "cancel": "Cancel",
+        "error": "Something went wrong. Please try again."
+    }
+}

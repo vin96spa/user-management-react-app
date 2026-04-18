@@ -1,15 +1,17 @@
 import { useState } from "react";
 import MyPostsTab from "../components/MyPostsTab";
 import AllPostsTab from "../components/AllPostsTab";
+import { useTranslation } from "react-i18next";
 
 type Tab = "mine" | "all";
 
 export default function PostsPage() {
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState<Tab>("mine");
 
     return (
         <div>
-            <h2 className="text-2xl font-bold mb-6">Posts</h2>
+            <h2 className="text-2xl font-bold mb-6">{t("posts.title")}</h2>
 
             {/* Tab switcher */}
             <div className="flex gap-1 mb-6 bg-gray-200 p-1 rounded w-fit">
@@ -20,7 +22,7 @@ export default function PostsPage() {
                             : "text-gray-600 hover:text-gray-900"
                         }`}
                 >
-                    My Posts
+                    {t("posts.myPosts")}
                 </button>
                 <button
                     onClick={() => setActiveTab("all")}
@@ -29,7 +31,7 @@ export default function PostsPage() {
                             : "text-gray-600 hover:text-gray-900"
                         }`}
                 >
-                    All Posts
+                    {t("posts.allPosts")}
                 </button>
             </div>
 

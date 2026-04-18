@@ -1,15 +1,17 @@
 import { useFormContext } from "react-hook-form";
 import type { RegisterFormData } from "../validations/registerSchema";
+import { useTranslation } from "react-i18next";
 
 // useFormContext reads the form from context instead of receiving it as a prop
 // this allows using the component inside any useForm
 export default function UserForm() {
+    const {t} = useTranslation();
     const { register, formState: { errors } } = useFormContext<RegisterFormData>();
 
     return (
         <div className="flex flex-col gap-4">
             <div>
-                <label className="block text-sm font-medium mb-1">Full Name</label>
+                <label className="block text-sm font-medium mb-1">{t("register.name")}</label>
                 <input
                     {...register("name")}
                     className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -20,7 +22,7 @@ export default function UserForm() {
             </div>
 
             <div>
-                <label className="block text-sm font-medium mb-1">Email</label>
+                <label className="block text-sm font-medium mb-1">{t("register.email")}</label>
                 <input
                     {...register("email")}
                     type="email"
@@ -32,7 +34,7 @@ export default function UserForm() {
             </div>
 
             <div>
-                <label className="block text-sm font-medium mb-1">Gender</label>
+                <label className="block text-sm font-medium mb-1">{t("register.gender")}</label>
                 <div className="flex gap-4">
                     <label className="flex items-center gap-2">
                         <input
@@ -41,7 +43,7 @@ export default function UserForm() {
                             value="male"
                             {...register("gender")}
                         />
-                        Male
+                        {t("register.genderMale")}
                     </label>
                     <label className="flex items-center gap-2">
                         <input
@@ -50,7 +52,7 @@ export default function UserForm() {
                             value="female"
                             {...register("gender")}
                         />
-                        Female
+                        {t("register.genderFemale")}
                     </label>
                 </div>
                 {errors.gender && (

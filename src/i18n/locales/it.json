@@ -1,0 +1,97 @@
+{
+    "nav": {
+        "posts": "Post",
+        "settings": "Impostazioni",
+        "logout": "Esci",
+        "admin": "Pannello Admin"
+    },
+    "register": {
+        "title": "Crea Account",
+        "name": "Nome completo",
+        "email": "Email",
+        "gender": "Genere",
+        "genderMale": "Maschio",
+        "genderFemale": "Femmina",
+        "submit": "Registrati",
+        "submitting": "Creazione account...",
+        "haveAccount": "Hai già un account? Accedi"
+    },
+    "login": {
+        "title": "Accedi",
+        "email": "Email",
+        "submit": "Accedi",
+        "submitting": "Accesso in corso...",
+        "noAccount": "Non hai un account? Registrati",
+        "emailNotFoundError": "Nessun utente trovato con questa email."
+    },
+    "posts": {
+        "title": "Post",
+        "myPosts": "I miei Post",
+        "yourPosts": "Post pubblicati",
+        "othersPosts": "Post di altri utenti",
+        "allPosts": "Tutti i Post",
+        "newPost": "+ Nuovo Post",
+        "noPostsYet": "Nessun post ancora. Crea il primo!",
+        "noPosts": "Nessun post trovato.",
+        "loading": "Caricamento post...",
+        "share": "🔗 Condividi",
+        "copied": "✅ Copiato!",
+        "comments": "💬 Commenti",
+        "hideComments": "Nascondi Commenti",
+        "newPostTitle": "Titolo",
+        "newPostBody": "Scrivi il tuo post...",
+        "publish": "Pubblica",
+        "publishing": "Pubblicazione...",
+        "cancel": "Annulla"
+    },
+    "comments": {
+        "noComments": "Nessun commento ancora.",
+        "loading": "Caricamento commenti...",
+        "bodyPlaceholder": "Scrivi un commento...",
+        "submit": "Commenta",
+        "submitting": "Pubblicazione..."
+    },
+    "settings": {
+        "title": "Il mio Account",
+        "save": "Salva Modifiche",
+        "saving": "Salvataggio...",
+        "dangerZone": "Zona Pericolosa",
+        "dangerZoneDesc": "Una volta eliminato l'account, non si torna indietro.",
+        "deleteAccount": "Elimina Account",
+        "confirmDelete": "Sei sicuro? Questa azione non può essere annullata.",
+        "confirmDeleteBtn": "Sì, elimina il mio account",
+        "loading": "Caricamento account...",
+        "updateError": "Impossibile aggiornare l'account. Riprova.",
+        "deleteError": "Impossibile eliminare l'account. Riprova.",
+        "cancel": "Annulla"
+    },
+    "admin": {
+        "title": "Pannello Admin",
+        "edit": "Modifica",
+        "block": "Blocca",
+        "unblock": "Sblocca",
+        "delete": "Elimina",
+        "loading": "Caricamento utenti...",
+        "status": {
+            "active": "Attivo",
+            "inactive": "Inattivo"
+        },
+        "editModal": {
+            "title": "Modifica Utente",
+            "save": "Salva Modifiche",
+            "saving": "Salvataggio...",
+            "cancel": "Annulla"
+        },
+        "deleteModal": {
+            "title": "Elimina Utente",
+            "message": "Sei sicuro di voler eliminare:",
+            "warning": "Questa azione non può essere annullata.",
+            "confirm": "Sì, elimina",
+            "deleting": "Eliminazione...",
+            "cancel": "Annulla"
+        }
+    },
+    "common": {
+        "error": "Qualcosa è andato storto. Riprova."
+    }
+}

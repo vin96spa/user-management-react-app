@@ -5,12 +5,14 @@ import { commentSchema, type CommentFormData } from "../validations/postSchema";
 import { getPostComments, createComment } from "../api/posts";
 import { useAuthStore } from "../store/authStore";
 import type { Comment } from "../types/Post";
+import { useTranslation } from "react-i18next";
 
 interface Props {
     postId: number;
 }
 
 export default function CommentSection({ postId }: Props) {
+    const { t } = useTranslation();
     const token = useAuthStore((state) => state.token);
     const [comments, setComments] = useState<Comment[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -51,9 +53,9 @@ export default function CommentSection({ postId }: Props) {
             {/* comment list */}
             {
                 isLoading ? (
-                    <p className="text-sm text-gray-400"> Loading comments...</p>
+                    <p className="text-sm text-gray-400">{t("comments.loading")}</p>
                 ) : comments.length === 0 ? (
-                    <p className="text-sm text-gray-400"> No comments yet.</p>
+                    <p className="text-sm text-gray-400">{t("comments.noComments")}</p>
                 ) : (
                             <ul className="flex flex-col gap-2 mb-3 max-h-40 overflow-y-auto pr-1">
                         {
@@ -73,7 +75,7 @@ export default function CommentSection({ postId }: Props) {
                 <div>
                     <textarea
                         {...register("body")}
-                        placeholder="Write a comment..."
+                        placeholder={t("comments.bodyPlaceholder")}
                         rows={2}
                         className="w-full border rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                     />
@@ -89,7 +91,7 @@ export default function CommentSection({ postId }: Props) {
                     disabled={isSubmitting}
                     className="self-end px-3 py-1.5 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 transition-colors"
                 >
-                    {isSubmitting ? "Posting..." : "Post Comment"}
+                    {isSubmitting ? t("comments.submitting") : t("comments.submit")}
                 </button>
             </form>
         </div>

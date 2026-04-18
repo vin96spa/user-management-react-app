@@ -7,8 +7,10 @@ import { useAuthStore } from "../store/authStore";
 import { type RegisterFormData, registerSchema } from "../validations/registerSchema";
 import UserForm from "../components/UserForm";
 import { FormProvider } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 export default function UserSettingsPage() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const userId = useAuthStore((state) => state.userId);
     const token = useAuthStore((state) => state.token);
@@ -55,7 +57,7 @@ export default function UserSettingsPage() {
                 gender: updatedUser.gender,
             });
         } catch {
-            setApiError("Failed to update account. Please try again.");
+            setApiError(t("settings.updateError"));
         }
     };
 
@@ -67,17 +69,17 @@ export default function UserSettingsPage() {
             logout();
             navigate("/login");
         } catch {
-            setApiError("Failed to delete account. Please try again.");
+            setApiError(t("settings.deleteError"));
         }
     };
 
     if (isLoadingUser) {
-        return <p className="text-gray-400">Loading your account...</p>;
+        return <p className="text-gray-400">{t("settings.loading")}</p>;
     }
 
     return (
         <div className="max-w-lg">
-            <h2 className="text-2xl font-bold mb-6">My Account</h2>
+            <h2 className="text-2xl font-bold mb-6">{t("settings.title")}</h2>
 
             {apiError && (
                 <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">
@@ -96,7 +98,7 @@ export default function UserSettingsPage() {
                         disabled={isSubmitting || !isDirty}
                         className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
                     >
-                        {isSubmitting ? "Saving..." : "Save Changes"}
+                        {isSubmitting ? t("settings.saving") : t("settings.save")}
                     </button>
                 </form>
             </FormProvider>
@@ -105,10 +107,10 @@ export default function UserSettingsPage() {
             {/* Delete section — visually separated */}
             <div className="mt-10 border-t pt-6">
                 <h3 className="text-lg font-semibold text-red-600 mb-1">
-                    Danger Zone
+                    {t("settings.dangerZone")}
                 </h3>
                 <p className="text-sm text-gray-500 mb-4">
-                    Once you delete your account, there is no going back.
+                    {t("settings.dangerZoneDesc")}
                 </p>
 
                 {!showDeleteConfirm ? (
@@ -116,25 +118,25 @@ export default function UserSettingsPage() {
                         onClick={() => setShowDeleteConfirm(true)}
                         className="px-4 py-2 text-sm rounded border border-red-500 text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
                     >
-                        Delete Account
+                        {t("settings.deleteAccount")}
                     </button>
                 ) : (
                     <div className="flex flex-col gap-2">
                         <p className="text-sm font-medium text-red-600">
-                            Are you sure? This action cannot be undone.
+                            {t("settings.confirmDelete")}
                         </p>
                         <div className="flex gap-2">
                             <button
                                 onClick={handleDelete}
                                 className="px-4 py-2 text-sm rounded bg-red-600 text-white hover:bg-red-700 transition-colors cursor-pointer"
                             >
-                                Yes, delete my account
+                                {t("settings.confirmDeleteBtn")}
                             </button>
                             <button
                                 onClick={() => setShowDeleteConfirm(false)}
                                 className="px-4 py-2 text-sm rounded border hover:bg-gray-50 transition-colors cursor-pointer"
                             >
-                                Cancel
+                                {t("settings.cancel")}
                             </button>
                         </div>
                     </div>

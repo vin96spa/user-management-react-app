@@ -5,6 +5,7 @@ import { updateUser } from "../../api/users";
 import { useAuthStore } from "../../store/authStore";
 import type { User } from "../../types/User";
 import UserForm from "../UserForm";
+import { useTranslation } from "react-i18next";
 
 interface Props {
     user: User;
@@ -14,6 +15,7 @@ interface Props {
 
 export default function EditUserModal({ user, onClose, onUpdated }: Props) {
     const token = useAuthStore((state) => state.token);
+    const { t } = useTranslation();
 
     const methods = useForm<RegisterFormData>({
         resolver: zodResolver(registerSchema),
@@ -41,12 +43,11 @@ export default function EditUserModal({ user, onClose, onUpdated }: Props) {
                 className="bg-white rounded shadow-lg w-full max-w-md p-6"
                 onClick={(e) => e.stopPropagation()}
             >
-                <h3 className="text-lg font-bold mb-4">Edit User</h3>
+                <h3 className="text-lg font-bold mb-4">{t("admin.editModal.title")}</h3>
 
                 <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
 
-                        {/* form riutilizzato — stesso componente della RegisterPage */}
                         <UserForm />
 
                         <div className="flex gap-2 justify-end mt-2">
@@ -55,14 +56,14 @@ export default function EditUserModal({ user, onClose, onUpdated }: Props) {
                                 onClick={onClose}
                                 className="px-4 py-2 text-sm rounded border hover:bg-gray-50 transition-colors cursor-pointer"
                             >
-                                Cancel
+                                {t("admin.editModal.cancel")}
                             </button>
                             <button
                                 type="submit"
                                 disabled={isSubmitting || !isDirty}
                                 className="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
                             >
-                                {isSubmitting ? "Saving..." : "Save Changes"}
+                                {isSubmitting ? t("admin.editModal.saving") : t("admin.editModal.save")}
                             </button>
                         </div>
                     </form>

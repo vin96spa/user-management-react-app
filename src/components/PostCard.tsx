@@ -1,12 +1,14 @@
 import { useState } from "react";
 import type { Post } from "../types/Post";
 import CommentSection from "./CommentSection";
+import { useTranslation } from "react-i18next";
 
 interface Props {
     post: Post;
 }
 
 export default function PostCard({ post }: Props) {
+    const { t } = useTranslation();
     const [showComments, setShowComments] = useState(false);
     const [copied, setCopied] = useState(false);
 
@@ -30,14 +32,14 @@ export default function PostCard({ post }: Props) {
                     onClick={() => setShowComments((prev) => !prev)}
                     className="text-sm text-blue-600 hover:underline cursor-pointer"
                 >
-                    {showComments ? "Hide Comments" : "💬 Comments"}
+                    {showComments ? t("posts.hideComments") : t("posts.comments")}
                 </button>
 
                 <button
                     onClick={handleShare}
                     className="text-sm text-blue-600 hover:underline cursor-pointer"
                 >
-                    {copied ? "✅ Copied!" : "🔗 Share"}
+                    {copied ? t("posts.copied") : t("posts.share")}
                 </button>
             </div>
 

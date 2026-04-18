@@ -4,6 +4,7 @@ import { useAuthStore } from "../store/authStore";
 import { type Post } from "../types/Post";
 import { createPost } from "../api/posts";
 import { type PostFormData, postSchema } from "../validations/postSchema";
+import { useTranslation } from "react-i18next";
 
 interface Props {
     onPostCreated: (post: Post) => void;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export default function NewPostForm({ onPostCreated, onCancel }: Props) {
+    const { t } = useTranslation();
 
     const userId = useAuthStore((state) => state.userId);
     const token = useAuthStore((state) => state.token);
@@ -38,12 +40,12 @@ export default function NewPostForm({ onPostCreated, onCancel }: Props) {
             onSubmit={handleSubmit(onSubmit)}
             className="bg-white p-4 rounded shadow mb-4 flex flex-col gap-3"
         >
-            <h2 className="font-semibold text-lg">New Post</h2>
+            <h2 className="font-semibold text-lg">{t("posts.newPost")}</h2>
 
             <div>
                 <input
                     {...register("title")}
-                    placeholder="Title"
+                    placeholder={t("posts.newPostTitle")}
                     className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 {errors.title && (
@@ -54,7 +56,7 @@ export default function NewPostForm({ onPostCreated, onCancel }: Props) {
             <div>
                 <textarea
                     {...register("body")}
-                    placeholder="Write your post..."
+                    placeholder={t("posts.newPostBody")}
                     rows={4}
                     className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                 />
@@ -67,16 +69,16 @@ export default function NewPostForm({ onPostCreated, onCancel }: Props) {
                 <button
                     type="button"
                     onClick={onCancel}
-                    className="px-4 py-2 text-sm rounded border hover:bg-gray-50 transition-colors"
+                    className="px-4 py-2 text-sm rounded border hover:bg-gray-50 transition-colors cursor-pointer"
                 >
-                    Cancel
+                    {t("posts.cancel")}
                 </button>
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                    className="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
                 >
-                    {isSubmitting ? "Publishing..." : "Publish"}
+                    {isSubmitting ? t("posts.publishing") : t("posts.publish")}
                 </button>
             </div>
         </form>

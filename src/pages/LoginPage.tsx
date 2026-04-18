@@ -5,8 +5,10 @@ import { useState } from "react";
 import { getUserByEmail } from "../api/users";
 import { useAuthStore } from "../store/authStore";
 import { type LoginFormData, loginSchema } from "../validations/loginSchema";
+import { useTranslation } from "react-i18next";
 
 export default function LoginPage() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const login = useAuthStore((state) => state.login);
     const [apiError, setApiError] = useState<string | null>(null);
@@ -30,7 +32,7 @@ export default function LoginPage() {
         try {
             const user = await getUserByEmail(data.email, token);
             if (!user || user.length === 0) {
-                setApiError("No user found with this email.");
+                setApiError(t("login.emailNotFoundError"));
                 return;
             }
             const isAdmin = data.email === adminEmail;
@@ -50,9 +52,9 @@ export default function LoginPage() {
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded shadow w-full max-w-md">
                 <div className="flex center items-center justify-between mb-6">
-                    <h1 className="text-2xl font-bold mb-6">Login</h1>
+                    <h1 className="text-2xl font-bold mb-6">{t("login.title")}</h1>
                     <Link to="/register" className="text-sm text-blue-600 hover:underline mb-4 inline-block">
-                        Don't have an account? Register
+                        {t("login.noAccount")}
                     </Link>
                 </div>
                 
@@ -66,7 +68,7 @@ export default function LoginPage() {
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
 
                     <div>
-                        <label className="block text-sm font-medium mb-1">Email</label>
+                        <label className="block text-sm font-medium mb-1">{t("login.email")}</label>
                         <input
                             {...register("email")}
                             type="email"
@@ -82,7 +84,7 @@ export default function LoginPage() {
                         disabled={isSubmitting}
                         className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
                     >
-                        {isSubmitting ? "Logging in..." : "Login"}
+                        {isSubmitting ? t("login.submitting") : t("login.submit")}
                     </button>
 
                 </form>
