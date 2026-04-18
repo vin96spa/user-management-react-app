@@ -18,26 +18,28 @@ export default function LoginPage() {
     } = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
         mode: "onTouched",
-        defaultValues: {
-            token: import.meta.env.VITE_API_TOKEN || "",
-        },
     });
 
 
 
     const onSubmit = async (data: LoginFormData) => {
         setApiError(null);
+        const token = import.meta.env.VITE_API_TOKEN || "";
+        const adminEmail = import.meta.env.VITE_ADMIN_EMAIL || "";
 
         try {
-            const user = await getUserByEmail(data.email, data.token);
-            if (data.email == "admin@admin.com") {
-                login(user[0].id, data.token, user[0].name, user[0].email);
-                useAuthStore.setState({ isAdmin: true });
+            const user = await getUserByEmail(data.email, token);
+            if (!user || user.length === 0) {
+                setApiError("No user found with this email.");
+                return;
+            }
+            const isAdmin = data.email === adminEmail;
+            if (isAdmin) {
+                login(user[0].id, token, user[0].name, user[0].email, isAdmin);
                 navigate("/admin/dashboard");
                 return;
             }
-            login(user[0].id, data.token, user[0].name, user[0].email);
-            useAuthStore.setState({ isAdmin: false });
+            login(user[0].id, token, user[0].name, user[0].email, isAdmin);
             navigate("/posts");
         } catch (error) {
             setApiError(JSON.stringify(error));
@@ -78,7 +80,7 @@ export default function LoginPage() {
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                        className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
                     >
                         {isSubmitting ? "Logging in..." : "Login"}
                     </button>

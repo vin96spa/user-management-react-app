@@ -26,9 +26,7 @@ export default function RegisterPage() {
         defaultValues: {
             name: "Test User",
             gender: "male",
-            status: "active",
             email: generateEmail("Test User"),
-            token: import.meta.env.VITE_API_TOKEN || "",
         },
     });
 
@@ -38,8 +36,10 @@ export default function RegisterPage() {
         setApiError(null);
 
         try {
-            const { token, ...userData } = data;
-            const newUser = await createUser(userData, token);
+            const token = import.meta.env.VITE_API_TOKEN || "";
+            const status: "active" | "inactive" = "active";
+            const payload = { ...data, status };
+            const newUser = await createUser(payload, token);
             login(newUser.id, token, newUser.name, newUser.email);
             navigate("/posts");
         } catch (error) {
@@ -116,7 +116,7 @@ export default function RegisterPage() {
             <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
             >
                 {isSubmitting ? "Creating account..." : "Register"}
             </button>

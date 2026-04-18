@@ -11,6 +11,8 @@ export const getUser = (id: number, token: string) => apiClient(`/users/${id}`, 
 export const getUserByEmail = (email: string, token: string) =>
     apiClient(`/users?email=${encodeURIComponent(email)}`, { method: "GET" }, token);
 
+export const getUserById = (id: number, token: string) => apiClient(`/users/${id}`, { method: "GET" }, token);
+
 export const updateUser = (id: number, payload: Partial<CreateUserPayload>, token: string) =>
     apiClient(`/users/${id}`, { method: "PUT", body: JSON.stringify(payload) }, token);
 

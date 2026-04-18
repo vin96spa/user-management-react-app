@@ -7,7 +7,7 @@ interface AuthState {
     userEmail: string | null;
     token: string | null;
     isAdmin: boolean;
-    login: (userId: number, token: string, userName: string, userEmail: string) => void;
+    login: (userId: number, token: string, userName: string, userEmail: string, isAdmin?: boolean) => void;
     logout: () => void;
 }
 
@@ -19,7 +19,7 @@ export const useAuthStore = create<AuthState>()(
         userEmail: null,
         token: null,
         isAdmin: false,
-        login: (userId, token, userName, userEmail) => set({ userId, token, userName, userEmail }),
+        login: (userId, token, userName, userEmail, isAdmin = false) => set({ userId, token, userName, userEmail, isAdmin }),
         logout: () => set({ userId: null, token: null, userName: null, userEmail: null, isAdmin: false }),
     }),
         { name: "auth-storage" }
