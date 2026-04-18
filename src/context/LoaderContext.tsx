@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import FullScreenLoader from "../components/ui/Loader";
+import Loader from "../components/ui/Loader";
 
 interface LoaderContextType {
     showLoader: () => void;
@@ -19,7 +19,7 @@ export function LoaderProvider({ children }: { children: React.ReactNode }) {
     return (
         <LoaderContext.Provider value={{ showLoader, hideLoader }}>
             {/* the loader is rendered here — always on top */}
-            {isLoading && <FullScreenLoader />}
+            {isLoading && <Loader />}
             {children}
         </LoaderContext.Provider>
     );
