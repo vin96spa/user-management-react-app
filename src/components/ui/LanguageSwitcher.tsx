@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { useLoader } from "../../context/LoaderContext";
 
 interface Props {
     variant?: "light" | "dark";
@@ -6,10 +7,14 @@ interface Props {
 
 export default function LanguageSwitcher({ variant = "light" }: Props) {
     const { i18n } = useTranslation();
+    const { showLoader, hideLoader } = useLoader();
 
-    const toggleLanguage = () => {
+    const toggleLanguage = async () => {
+        showLoader();
         const next = i18n.language.startsWith("it") ? "en" : "it";
-        i18n.changeLanguage(next);
+        await new Promise((resolve) => setTimeout(resolve, 600));
+        await i18n.changeLanguage(next);
+        hideLoader();
     };
 
     return (
