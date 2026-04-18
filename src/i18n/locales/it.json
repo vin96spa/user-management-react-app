@@ -86,6 +86,11 @@
             "confirm": "Sì, elimina",
             "deleting": "Eliminazione...",
             "cancel": "Annulla"
+        },
+        "fields": {
+            "name": "Nome",
+            "email": "Email",
+            "status": "Stato"
         }
     },
     "common": {

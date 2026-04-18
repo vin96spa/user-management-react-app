@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Pencil, Ban, ShieldCheck, Trash2 } from "lucide-react";
 import { getUsers, blockUser, unblockUser } from "../../api/users";
 import { useAuthStore } from "../../store/authStore";
+import { useLoader } from "../../context/LoaderContext";
 import type { User } from "../../types/User";
 import EditUserModal from "../../components/admin/EditUserModal";
 import DeleteUserModal from "../../components/admin/DeleteUserModal";
-import { useLoader } from "../../context/LoaderContext";
+import { getInitials } from "../../utils/formatters";
+
 
 export default function AdminDashboardPage() {
+    const { t } = useTranslation();
     const token = useAuthStore((state) => state.token);
     const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
+    const { showLoader, hideLoader } = useLoader();
 
     const [users, setUsers] = useState<User[]>([]);
     const [error, setError] = useState<string | null>(null);
-    const { showLoader, hideLoader } = useLoader();
     const [loadingUserId, setLoadingUserId] = useState<number | null>(null);
-
-    // null = modal closed, User = modal open for that user
     const [editingUser, setEditingUser] = useState<User | null>(null);
     const [deletingUser, setDeletingUser] = useState<User | null>(null);
 
@@ -37,7 +40,6 @@ export default function AdminDashboardPage() {
                 ? await blockUser(user.id, token || "")
                 : await unblockUser(user.id, token || "");
 
-            // update only that user in the local list
             setUsers((prev) =>
                 prev.map((u) => (u.id === updatedUser.id ? updatedUser : u))
             );
@@ -48,24 +50,19 @@ export default function AdminDashboardPage() {
         }
     };
 
-    // called from EditUserModal when saving is successful
     const handleUserUpdated = (updatedUser: User) => {
         setUsers((prev) =>
             prev.map((u) => (u.id === updatedUser.id ? updatedUser : u))
         );
     };
 
-    // called from DeleteUserModal when deletion is successful
     const handleUserDeleted = (userId: number) => {
         setUsers((prev) => prev.filter((u) => u.id !== userId));
     };
 
     return (
         <div>
-            {/* header */}
-            <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold">Admin Dashboard</h2>
-            </div>
+            <h2 className="text-2xl font-bold mb-6">{t("admin.title")}</h2>
 
             {error && (
                 <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">
@@ -73,66 +70,110 @@ export default function AdminDashboardPage() {
                 </div>
             )}
 
-            <div className="grid gap-3">
-                {users.filter((user) => user.email !== adminEmail).map((user) => (
-                    <div
-                        key={user.id}
-                        className="p-4 bg-white shadow rounded flex items-center justify-between"
-                    >
-                        {/* user info */}
-                        <div className="flex flex-col gap-1">
-                            <p className="font-semibold">{user.name}</p>
-                            <p className="text-sm text-gray-500">{user.email}</p>
-                            <span
-                                className={`text-xs font-medium px-2 py-0.5 rounded-full w-fit ${user.status === "active"
-                                        ? "bg-green-100 text-green-700"
-                                        : "bg-red-100 text-red-600"
-                                    }`}
-                            >
-                                {user.status}
-                            </span>
-                        </div>
-
-                        {/* actions */}
-                        <div className="flex gap-2">
-
-                            {/* button edit */}
-                            <button
-                                onClick={() => setEditingUser(user)}
-                                className="px-3 py-1.5 text-sm rounded border border-blue-500 text-blue-500 hover:bg-blue-50 transition-colors cursor-pointer"
-                            >
-                                Edit
-                            </button>
-                        </div>
-
-                        {/* button block/unblock */}
-                        <button
-                            onClick={() => handleToggleStatus(user)}
-                            disabled={loadingUserId === user.id}
-                            className={`px-3 py-1.5 text-sm rounded border transition-colors disabled:opacity-50 cursor-pointer ${user.status === "active"
-                                    ? "border-red-500 text-red-500 hover:bg-red-50"
-                                    : "border-green-500 text-green-600 hover:bg-green-50"
-                                }`}
+            <div className="flex flex-col gap-3">
+                {users
+                    .filter((user) => user.email !== adminEmail)
+                    .map((user) => (
+                        <div
+                            key={user.id}
+                            className="bg-white border border-gray-100 rounded-xl px-5 py-4 flex items-center justify-between gap-4"
                         >
-                            {loadingUserId === user.id
-                                ? "..."
-                                : user.status === "active"
-                                    ? "Block"
-                                    : "Unblock"}
-                        </button>
+                            {/* avatar + info */}
+                            <div className="flex items-center gap-4">
 
-                        {/* button delete */}
-                        <button
-                            onClick={() => setDeletingUser(user)}
-                            className="px-3 py-1.5 text-sm rounded border border-gray-300 text-gray-500 hover:bg-gray-50 transition-colors cursor-pointer"
-                        >
-                            Delete
-                        </button>
-                    </div>
-                ))}
+                                {/* avatar iniziali */}
+                                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0 ${user.status === "active"
+                                        ? "bg-blue-50 text-blue-600"
+                                        : "bg-gray-100 text-gray-400"
+                                    }`}>
+                                    {getInitials(user.name)}
+                                </div>
+
+                                {/* campi */}
+                                <div className="flex flex-col gap-1">
+                                    <div className="flex items-baseline gap-2">
+                                        <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide w-10">
+                                            {t("admin.fields.name")}
+                                        </span>
+                                        <span className="text-sm font-semibold text-gray-800">
+                                            {user.name}
+                                        </span>
+                                    </div>
+
+                                    <div className="flex items-baseline gap-2">
+                                        <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide w-10">
+                                            {t("admin.fields.email")}
+                                        </span>
+                                        <span className="text-sm text-gray-500">
+                                            {user.email}
+                                        </span>
+                                    </div>
+
+                                    <div className="flex items-center gap-2 mt-0.5">
+                                        <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide w-10">
+                                            {t("admin.fields.status")}
+                                        </span>
+                                        <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${user.status === "active"
+                                                ? "bg-green-50 text-green-700"
+                                                : "bg-red-50 text-red-600"
+                                            }`}>
+                                            {user.status === "active"
+                                                ? t("admin.status.active")
+                                                : t("admin.status.inactive")}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* azioni */}
+                            <div className="flex items-center gap-2 flex-shrink-0">
+
+                                {/* edit */}
+                                <button
+                                    onClick={() => setEditingUser(user)}
+                                    className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors cursor-pointer"
+                                >
+                                    <Pencil size={12} />
+                                    {t("admin.edit")}
+                                </button>
+
+                                {/* block / unblock */}
+                                <button
+                                    onClick={() => handleToggleStatus(user)}
+                                    disabled={loadingUserId === user.id}
+                                    className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-colors cursor-pointer disabled:opacity-40 ${user.status === "active"
+                                            ? "border-orange-300 text-orange-500 hover:bg-orange-50"
+                                            : "border-green-300 text-green-600 hover:bg-green-50"
+                                        }`}
+                                >
+                                    {loadingUserId === user.id ? (
+                                        <span className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                                    ) : user.status === "active" ? (
+                                        <Ban size={12} />
+                                    ) : (
+                                        <ShieldCheck size={12} />
+                                    )}
+                                    {loadingUserId === user.id
+                                        ? "..."
+                                        : user.status === "active"
+                                            ? t("admin.block")
+                                            : t("admin.unblock")}
+                                </button>
+
+                                {/* delete */}
+                                <button
+                                    onClick={() => setDeletingUser(user)}
+                                    className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-red-200 text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                                >
+                                    <Trash2 size={12} />
+                                    {t("admin.delete")}
+                                </button>
+
+                            </div>
+                        </div>
+                    ))}
             </div>
 
-            {/* modals - out of the list */}
             {editingUser && (
                 <EditUserModal
                     user={editingUser}
