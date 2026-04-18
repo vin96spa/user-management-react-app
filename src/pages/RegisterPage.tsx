@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -50,7 +50,12 @@ export default function RegisterPage() {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded shadow w-full max-w-md">
-                <h1 className="text-2xl font-bold mb-6">Create Account</h1>
+                <div className="flex center items-center justify-between mb-6">
+                    <h1 className="text-2xl font-bold mb-6">Create Account</h1>
+                    <Link to="/login" className="text-sm text-blue-600 hover:underline mb-4 inline-block">
+                        Already have an account? Login
+                    </Link>
+                </div>
 
                 {apiError && (
                     <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">
@@ -107,30 +112,6 @@ export default function RegisterPage() {
                             <p className="text-red-500 text-xs mt-1">{errors.gender.message}</p>
                         )}
                     </div>
-
-                    <div>
-                        <label className="block text-sm font-medium mb-1">GoRest Token</label>
-                        <input
-                            {...register("token")}
-                            type="password"
-                            placeholder="Paste your GoRest token here"
-                            className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        {errors.token && (
-                            <p className="text-red-500 text-xs mt-1">{errors.token.message}</p>
-                        )}
-                        <p className="text-xs text-gray-400 mt-1">
-                            Get your token at{" "}
-                        <a
-                            href="https://gorest.co.in"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="text-blue-500 underline"
-                        >
-                            gorest.co.in
-                        </a>
-                    </p>
-            </div>
 
             <button
                 type="submit"

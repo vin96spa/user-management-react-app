@@ -11,7 +11,7 @@ export default function ProtectedRoute({ children, requireAdmin = false }: Props
     const isAdmin = useAuthStore((state) => state.isAdmin);
 
     if (requireAdmin && !isAdmin) return <Navigate to="/admin" replace />;
-    if (!requireAdmin && !userId) return <Navigate to="/register" replace />;
+    if (!requireAdmin && !userId) return <Navigate to="/login" replace />;
 
     return <>{children}</>;
 }

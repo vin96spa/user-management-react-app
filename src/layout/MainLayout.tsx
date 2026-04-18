@@ -6,10 +6,11 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     const navigate = useNavigate();
     const logout = useAuthStore((state) => state.logout);
     const userName = useAuthStore((state) => state.userName);
+    const isAdmin = useAuthStore((state) => state.isAdmin);
 
     const onLogout = () => {
         logout();
-        navigate("/register");
+        navigate("/login");
     };
 
     return (
@@ -18,9 +19,14 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 <h1 className="text-xl font-bold mb-6">{ userName }</h1>
 
                 <nav className="flex flex-col gap-3">
-                    <Link to="/">Users</Link>
-                    <Link to="/posts">Posts</Link>
-                    <Link to="/settings">Settings</Link>
+                    {
+                    isAdmin ? (
+                        <Link to="/admin/dashboard">Dashboard</Link>
+                    ) : (
+                    <><Link to="/posts">Posts</Link><Link to="/settings">Settings</Link></>
+                    )
+                    }
+                    
                 </nav>
 
                 <button
