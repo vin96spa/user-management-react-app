@@ -6,6 +6,7 @@ import { getPostComments, createComment } from "../api/posts";
 import { useAuthStore } from "../store/authStore";
 import type { Comment } from "../types/Post";
 import { useTranslation } from "react-i18next";
+import { useLoader } from "../context/LoaderContext";
 
 interface Props {
     postId: number;
@@ -15,9 +16,9 @@ export default function CommentSection({ postId }: Props) {
     const { t } = useTranslation();
     const token = useAuthStore((state) => state.token);
     const [comments, setComments] = useState<Comment[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
     const name = useAuthStore((state) => state.userName);
     const email = useAuthStore((state) => state.userEmail);
+    const { showLoader, hideLoader } = useLoader();
 
     const {
         register,
@@ -31,9 +32,10 @@ export default function CommentSection({ postId }: Props) {
     // load comments when the component mounts
     useEffect(() => {
         if (!token) return;
+        showLoader();
         getPostComments(postId, token)
             .then(setComments)
-            .finally(() => setIsLoading(false));
+            .finally(() => hideLoader());
     }, [postId, token]);
 
     const onSubmit = async (data: CommentFormData) => {
@@ -52,9 +54,7 @@ export default function CommentSection({ postId }: Props) {
         <div className="mt-3 border-t pt-3">
             {/* comment list */}
             {
-                isLoading ? (
-                    <p className="text-sm text-gray-400">{t("comments.loading")}</p>
-                ) : comments.length === 0 ? (
+                comments.length === 0 ? (
                     <p className="text-sm text-gray-400">{t("comments.noComments")}</p>
                 ) : (
                             <ul className="flex flex-col gap-2 mb-3 max-h-40 overflow-y-auto pr-1">

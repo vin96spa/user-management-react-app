@@ -33,7 +33,6 @@
         "newPost": "+ Nuovo Post",
         "noPostsYet": "Nessun post ancora. Crea il primo!",
         "noPosts": "Nessun post trovato.",
-        "loading": "Caricamento post...",
         "share": "🔗 Condividi",
         "copied": "✅ Copiato!",
         "comments": "💬 Commenti",
@@ -60,7 +59,6 @@
         "deleteAccount": "Elimina Account",
         "confirmDelete": "Sei sicuro? Questa azione non può essere annullata.",
         "confirmDeleteBtn": "Sì, elimina il mio account",
-        "loading": "Caricamento account...",
         "updateError": "Impossibile aggiornare l'account. Riprova.",
         "deleteError": "Impossibile eliminare l'account. Riprova.",
         "cancel": "Annulla"
@@ -71,7 +69,6 @@
         "block": "Blocca",
         "unblock": "Sblocca",
         "delete": "Elimina",
-        "loading": "Caricamento utenti...",
         "status": {
             "active": "Attivo",
             "inactive": "Inattivo"

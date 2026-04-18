@@ -8,6 +8,7 @@ import { type RegisterFormData, registerSchema } from "../validations/registerSc
 import UserForm from "../components/UserForm";
 import { FormProvider } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useLoader } from "../context/LoaderContext";
 
 export default function UserSettingsPage() {
     const { t } = useTranslation();
@@ -16,8 +17,8 @@ export default function UserSettingsPage() {
     const token = useAuthStore((state) => state.token);
     const logout = useAuthStore((state) => state.logout);
     const login = useAuthStore((state) => state.login);
+    const { showLoader, hideLoader } = useLoader();
 
-    const [isLoadingUser, setIsLoadingUser] = useState(true);
     const [apiError, setApiError] = useState<string | null>(null);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
@@ -30,7 +31,7 @@ export default function UserSettingsPage() {
     // load user data and pre-populate the form
     useEffect(() => {
         if (!userId || !token) return;
-
+        showLoader();
         getUserById(userId, token)
             .then((user: RegisterFormData) => {
                 // reset() with values pre-populates the form
@@ -40,7 +41,7 @@ export default function UserSettingsPage() {
                     gender: user.gender,
                 });
             })
-            .finally(() => setIsLoadingUser(false));
+            .finally(() => hideLoader());
     }, [userId, token, reset]);
 
     const onSubmit = async (data: RegisterFormData) => {
@@ -72,10 +73,6 @@ export default function UserSettingsPage() {
             setApiError(t("settings.deleteError"));
         }
     };
-
-    if (isLoadingUser) {
-        return <p className="text-gray-400">{t("settings.loading")}</p>;
-    }
 
     return (
         <div className="max-w-lg">

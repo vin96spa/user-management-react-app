@@ -5,21 +5,23 @@ import type { Post } from "../types/Post";
 import PostCard from "./PostCard";
 import NewPostForm from "./NewPostForm";
 import { useTranslation } from "react-i18next";
+import { useLoader } from "../context/LoaderContext";
 
 export default function MyPostsTab() {
     const { t } = useTranslation();
     const userId = useAuthStore((state) => state.userId);
     const token = useAuthStore((state) => state.token);
+    const { showLoader, hideLoader } = useLoader();
 
     const [posts, setPosts] = useState<Post[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [showNewPostForm, setShowNewPostForm] = useState(false);
 
     useEffect(() => {
         if (!userId || !token) return;
+        showLoader();
         getUserPosts(userId, token)
             .then(setPosts)
-            .finally(() => setIsLoading(false));
+            .finally(() => hideLoader());
     }, [userId, token]);
 
     const handlePostCreated = (newPost: Post) => {
@@ -46,9 +48,7 @@ export default function MyPostsTab() {
                 />
             )}
 
-            {isLoading ? (
-                <p className="text-gray-400">{t("posts.loading")}</p>
-            ) : posts.length === 0 ? (
+            {posts.length === 0 ? (
                 <p className="text-gray-400">{t("posts.noPostsYet")}</p>
             ) : (
                 <div className="flex flex-col gap-4">

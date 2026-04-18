@@ -4,14 +4,15 @@ import { useAuthStore } from "../../store/authStore";
 import type { User } from "../../types/User";
 import EditUserModal from "../../components/admin/EditUserModal";
 import DeleteUserModal from "../../components/admin/DeleteUserModal";
+import { useLoader } from "../../context/LoaderContext";
 
 export default function AdminDashboardPage() {
     const token = useAuthStore((state) => state.token);
     const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
 
     const [users, setUsers] = useState<User[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const { showLoader, hideLoader } = useLoader();
     const [loadingUserId, setLoadingUserId] = useState<number | null>(null);
 
     // null = modal closed, User = modal open for that user
@@ -19,10 +20,12 @@ export default function AdminDashboardPage() {
     const [deletingUser, setDeletingUser] = useState<User | null>(null);
 
     useEffect(() => {
+        if (!token) return;
+        showLoader();
         getUsers()
             .then(setUsers)
             .catch(() => setError("Failed to load users."))
-            .finally(() => setIsLoading(false));
+            .finally(() => hideLoader());
     }, []);
 
     const handleToggleStatus = async (user: User) => {
@@ -56,8 +59,6 @@ export default function AdminDashboardPage() {
     const handleUserDeleted = (userId: number) => {
         setUsers((prev) => prev.filter((u) => u.id !== userId));
     };
-
-    if (isLoading) return <p className="text-gray-400">Loading users...</p>;
 
     return (
         <div>

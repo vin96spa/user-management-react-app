@@ -33,7 +33,6 @@
         "newPost": "+ New Post",
         "noPostsYet": "No posts yet. Create your first one!",
         "noPosts": "No posts found.",
-        "loading": "Loading posts...",
         "share": "🔗 Share",
         "copied": "✅ Copied!",
         "comments": "💬 Comments",
@@ -60,7 +59,6 @@
         "deleteAccount": "Delete Account",
         "confirmDelete": "Are you sure? This action cannot be undone.",
         "confirmDeleteBtn": "Yes, delete my account",
-        "loading": "Loading your account...",
         "updateError": "Failed to update account. Please try again.",
         "deleteError": "Failed to delete account. Please try again.",
         "cancel": "Cancel"
@@ -71,7 +69,6 @@
         "block": "Block",
         "unblock": "Unblock",
         "delete": "Delete",
-        "loading": "Loading users...",
         "status": {
             "active": "Active",
             "inactive": "Inactive"
