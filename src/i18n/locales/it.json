@@ -91,6 +91,16 @@
             "name": "Nome",
             "email": "Email",
             "status": "Stato"
+        },
+        "filter": {
+            "all": "Tutti",
+            "active": "Attivi",
+            "inactive": "Inattivi",
+            "results": "utenti"
+        },
+         "pagination": {
+            "prev": "Precedente",
+            "next": "Successivo"
         }
     },
     "common": {
