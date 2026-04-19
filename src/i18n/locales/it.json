@@ -126,7 +126,7 @@
         "commentCreatedSuccess": "Commento pubblicato!"
     },
     "notFound": {
-        "title": "Pagina non trovata!",
+        "title": "OOPS. Pagina non trovata!",
         "description": "Torna indietro!",
         "back": "Indietro" 
     }

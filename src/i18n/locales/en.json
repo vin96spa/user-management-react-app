@@ -114,7 +114,7 @@
         }
     },
     "notFound": {
-        "title": "Page not Found!",
+        "title": "OOPS. Page not Found!",
         "description": "Get Back!",
         "back": "Back"
     },
