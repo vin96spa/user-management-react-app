@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface Props {
     onPostCreated: (post: Post) => void;
@@ -37,6 +38,7 @@ export default function NewPostForm({ onPostCreated, onCancel }: Props) {
             { ...data, user_id: userId },
             token
         );
+        toast.info(t("common.postCreatedSuccess"));
         onPostCreated(newPost);
     };
 

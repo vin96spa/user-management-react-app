@@ -1,9 +1,9 @@
 {
     "nav": {
         "posts": "Posts",
-        "settings": "Settings",
+        "settings": "Account",
         "logout": "Logout",
-        "admin": "Admin Dashboard"
+        "admin": "Users Dashboard"
     },
     "register": {
         "title": "Create Account",
@@ -71,7 +71,7 @@
         "cancel": "Cancel"
     },
     "admin": {
-        "title": "Admin Dashboard",
+        "title": "Users Dashboard",
         "edit": "Edit",
         "block": "Block",
         "unblock": "Unblock",
@@ -111,7 +111,15 @@
         }
     },
     "common": {
-        "cancel": "Cancel",
-        "error": "Something went wrong. Please try again."
+        "error": "Something went wrong. Please try again.",
+        "loginSuccess": "Logged in successfully!",
+        "logoutSuccess": "Logged out successfully!",
+        "registerSuccess": "Account created successfully!",
+        "updateUserSuccess": "User updated successfully!",
+        "deleteUserSuccess": "User deleted successfully!",
+        "blockUserSuccess": "User blocked!",
+        "unblockUserSuccess": "User unblocked!",
+        "postCreatedSuccess": "Post created!",
+        "commentCreatedSuccess": "Comment posted!"
     }
 }

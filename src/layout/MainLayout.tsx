@@ -8,6 +8,7 @@ import { useLoader } from "@/context/LoaderContext";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
     const { t } = useTranslation();
@@ -23,6 +24,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         setTimeout(() => {
             hideLoader();}, 500);
         logout();
+        toast.info(t("common.logoutSuccess"));
         navigate("/login");
     };
 
@@ -35,13 +37,14 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
     const adminLinks = [
         { to: "/admin/dashboard", label: t("nav.admin") },
+        { to: "/posts", label: t("nav.posts") },
+        { to: "/settings", label: t("nav.settings") },
     ];
 
     const links = isAdmin ? adminLinks : userLinks;
 
     return (
         <div className="min-h-screen flex flex-col">
-
             {/* navbar */}
             <nav className="bg-gray-900 text-white h-14 flex items-center justify-between px-6 fixed top-0 left-0 right-0 z-40">
 
@@ -66,18 +69,18 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
                 <div className="flex items-center gap-3">
 
-                    <LanguageSwitcher variant="dark" />
+                    <LanguageSwitcher />
 
                     <Separator orientation="vertical" className="h-5 bg-white/15 m-auto" />
 
-                    <div className="flex items-center gap-2">
+                    <Link to="/settings" className="flex items-center gap-2">
                         <Avatar className="w-7 h-7">
                             <AvatarFallback className="bg-gray-700 text-gray-300 text-[11px]">
                                 {userName ? getInitials(userName) : "?"}
                             </AvatarFallback>
                         </Avatar>
                         <span className="text-sm text-gray-300">{userName}</span>
-                    </div>
+                    </Link>
 
                     <Separator orientation="vertical" className="h-5 bg-white/15 m-auto" />
 

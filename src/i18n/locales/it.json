@@ -1,9 +1,9 @@
 {
     "nav": {
         "posts": "Post",
-        "settings": "Impostazioni",
+        "settings": "Account",
         "logout": "Esci",
-        "admin": "Pannello Admin"
+        "admin": "Dashboard Utenze"
     },
     "register": {
         "title": "Crea Account",
@@ -71,7 +71,7 @@
         "cancel": "Annulla"
     },
     "admin": {
-        "title": "Pannello Admin",
+        "title": "Dashboard Utenze",
         "edit": "Modifica",
         "block": "Blocca",
         "unblock": "Sblocca",
@@ -111,6 +111,15 @@
         }
     },
     "common": {
-        "error": "Qualcosa è andato storto. Riprova."
+        "error": "Qualcosa è andato storto. Riprova.",
+        "loginSuccess": "Accesso effettuato con successo!",
+        "logoutSuccess": "Disconnessione avvenuta con successo!",
+        "registerSuccess": "Account creato con successo!",
+        "updateUserSuccess": "Utente aggiornato con successo!",
+        "deleteUserSuccess": "Utente eliminato con successo!",
+        "blockUserSuccess": "Utente bloccato!",
+        "unblockUserSuccess": "Utente sbloccato!",
+        "postCreatedSuccess": "Post pubblicato!",
+        "commentCreatedSuccess": "Commento pubblicato!"
     }
 }

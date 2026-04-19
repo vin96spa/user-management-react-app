@@ -10,6 +10,7 @@ import { useLoader } from "@/context/LoaderContext";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 
 interface Props {
     postId: number;
@@ -49,6 +50,7 @@ export default function CommentSection({ postId }: Props) {
             email: email || "",
         };
         const newComment = await createComment(postId, payload, token);
+        toast.info(t("common.commentCreatedSuccess"));
         setComments((prev) => [newComment, ...prev]);
         reset();
     };

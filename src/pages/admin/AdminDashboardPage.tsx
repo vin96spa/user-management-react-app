@@ -20,6 +20,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination";
+import { toast } from "sonner";
 
 type StatusFilter = "all" | "active" | "inactive";
 
@@ -64,8 +65,8 @@ export default function AdminDashboardPage() {
 
         try {
             const updatedUser = user.status === "active"
-                ? await blockUser(user.id, token || "")
-                : await unblockUser(user.id, token || "");
+                ? await blockUser(user.id, token || "").finally(() => toast.warning(t("common.blockUserSuccess")))
+                : await unblockUser(user.id, token || "").finally(() => toast.info(t("common.unblockUserSuccess")));
 
             setUsers((prev) =>
                 prev.map((u) => (u.id === updatedUser.id ? updatedUser : u))

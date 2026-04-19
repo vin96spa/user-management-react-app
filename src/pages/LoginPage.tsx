@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { Card, CardTitle, CardDescription, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { toast } from "sonner";
 
 export default function LoginPage() {
     const { t } = useTranslation();
@@ -47,10 +48,12 @@ export default function LoginPage() {
             }
 
             const isAdmin = data.email === adminEmail;
+            toast.info(t("common.loginSuccess"));
             login(user[0].id, token, user[0].name, user[0].email, isAdmin);
             navigate(isAdmin ? "/admin/dashboard" : "/posts");
 
         } catch {
+            toast.error(t("common.error"));
             setApiError(t("login.genericError"));
         }
     };

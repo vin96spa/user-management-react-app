@@ -15,6 +15,8 @@ import {
     DialogDescription,
 } from "@/components/ui/dialog";
 
+import { toast } from "sonner";
+
 interface Props {
     user: User;
     onClose: () => void;
@@ -33,6 +35,7 @@ export default function DeleteUserModal({ user, onClose, onDeleted }: Props) {
 
         try {
             await deleteUser(user.id, token || "");
+            toast.info(t("common.deleteUserSuccess"));
             onDeleted(user.id);
             onClose();
         } catch {

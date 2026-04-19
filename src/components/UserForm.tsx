@@ -13,7 +13,7 @@ const GENDER_OPTIONS = [
 
 // useFormContext reads the form from context instead of receiving it as a prop
 // this allows using the component inside any useForm
-export default function UserForm() {
+export default function UserForm({ isAdmin }: { isAdmin: boolean }) {
     const {t} = useTranslation();
     const { register, control, formState: { errors } } = useFormContext<RegisterFormData>();
 
@@ -33,7 +33,7 @@ export default function UserForm() {
             {/* Email */}
             <div className="flex flex-col gap-2">
                 <Label htmlFor="email">{t("register.email")}</Label>
-                <Input id="email" type="email" {...register("email")} autoComplete="email" />
+                <Input id="email" type="email" {...register("email")} autoComplete="email" disabled={isAdmin} />
                 {errors.email && (
                     <p className="text-destructive text-xs" role="alert">
                         {errors.email.message}

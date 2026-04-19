@@ -12,11 +12,13 @@ import { useLoader } from "@/context/LoaderContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function UserSettingsPage() {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const userId = useAuthStore((state) => state.userId);
+    const isAdmin = useAuthStore((state) => state.isAdmin);
     const token = useAuthStore((state) => state.token);
     const logout = useAuthStore((state) => state.logout);
     const login = useAuthStore((state) => state.login);
@@ -30,6 +32,7 @@ export default function UserSettingsPage() {
     });
 
     const { handleSubmit, reset, formState: { isSubmitting, isDirty } } = methods;
+
 
     // load user data and pre-populate the form
     useEffect(() => {
@@ -53,7 +56,10 @@ export default function UserSettingsPage() {
 
         try {
             const updatedUser = await updateUser(userId, data, token);
-            login(userId, token, updatedUser.name, updatedUser.email); // update auth store with new name/email
+            toast.info("Utente aggiornato con successo");
+
+            login(userId, token, updatedUser.name, updatedUser.email);
+            // update auth store with new name/email
             // use reset() to update the form with the latest saved data and also mark it as not dirty
             reset({
                 name: updatedUser.name,
@@ -69,9 +75,16 @@ export default function UserSettingsPage() {
         if (!userId || !token) return;
 
         try {
-            await deleteUser(userId, token);
-            logout();
-            navigate("/login");
+            showLoader();
+            await deleteUser(userId, token).finally(() => {
+                toast.success(t("common.deleteUserSuccess"));
+                logout();
+                navigate("/login");
+                setTimeout(() => {
+                    hideLoader();
+                }, 1000);
+            });
+
         } catch {
             setApiError(t("settings.deleteError"));
         }
@@ -97,7 +110,7 @@ export default function UserSettingsPage() {
                 <CardContent>
                     <FormProvider {...methods}>
                         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-                            <UserForm />
+                            <UserForm isAdmin={isAdmin} />
                             <Button
                                 type="submit"
                                 size="lg"
@@ -114,51 +127,53 @@ export default function UserSettingsPage() {
 
 
             {/* Delete section — visually separated */}
-            <Card className="mt-2 p-8 border-red-300">
-                <CardHeader className="pb-3">
-                    <CardTitle className="text-lg font-semibold text-red-600">
-                        {t("settings.dangerZone")}
-                    </CardTitle>
-                    <CardDescription className="text-muted-foreground">
-                        {t("settings.dangerZoneDesc")}
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
+            {!isAdmin && (
+                <Card className="mt-2 p-8 border-red-300">
+                    <CardHeader className="pb-3">
+                        <CardTitle className="text-lg font-semibold text-red-600">
+                            {t("settings.dangerZone")}
+                        </CardTitle>
+                        <CardDescription className="text-muted-foreground">
+                            {t("settings.dangerZoneDesc")}
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
 
-                    {!showDeleteConfirm ? (
-                        <Button
-                            variant="outline"
-                            onClick={() => setShowDeleteConfirm(true)}
-                            className="cursor-pointer border-red-300 text-red-500 hover:bg-red-50 hover:text-red-600"
+                        {!showDeleteConfirm ? (
+                            <Button
+                                variant="outline"
+                                onClick={() => setShowDeleteConfirm(true)}
+                                className="cursor-pointer border-red-300 text-red-500 hover:bg-red-50 hover:text-red-600"
 
-                        >
-                            {t("settings.deleteAccount")}
-                        </Button>
-                    ) : (
-                        <div className="flex flex-col gap-3">
-                            <p className="text-sm font-medium text-red-600">
-                                {t("settings.confirmDelete")}
-                            </p>
-                            <div className="flex gap-2">
-                                <Button
-                                    onClick={handleDelete}
-                                    className="cursor-pointer bg-red-600 hover:bg-red-700 text-white"
-                                >
-                                    {t("settings.confirmDeleteBtn")}
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    onClick={() => setShowDeleteConfirm(false)}
-                                    className="cursor-pointer"
+                            >
+                                {t("settings.deleteAccount")}
+                            </Button>
+                        ) : (
+                            <div className="flex flex-col gap-3">
+                                <p className="text-sm font-medium text-red-600">
+                                    {t("settings.confirmDelete")}
+                                </p>
+                                <div className="flex gap-2">
+                                    <Button
+                                        onClick={handleDelete}
+                                        className="cursor-pointer bg-red-600 hover:bg-red-700 text-white"
+                                    >
+                                        {t("settings.confirmDeleteBtn")}
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        onClick={() => setShowDeleteConfirm(false)}
+                                        className="cursor-pointer"
 
-                                >
-                                    {t("settings.cancel")}
-                                </Button>
+                                    >
+                                        {t("settings.cancel")}
+                                    </Button>
+                                </div>
                             </div>
-                        </div>
-                    )}
-                </CardContent>
-            </Card>
+                        )}
+                    </CardContent>
+                </Card>
+            )}
         </div>
     );
 }

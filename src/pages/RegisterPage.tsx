@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+import { toast } from "sonner";
 
 
 
@@ -45,6 +46,8 @@ export default function RegisterPage() {
         try {
             const token = import.meta.env.VITE_API_TOKEN || "";
             const newUser = await createUser({ ...data, status: "active" }, token);
+            toast.success(t("common.registerSuccess"));
+
             login(newUser.id, token, newUser.name, newUser.email);
             navigate("/posts");
         } catch (error) {

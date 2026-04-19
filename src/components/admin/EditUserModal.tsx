@@ -14,6 +14,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 interface Props {
     user: User;
@@ -38,6 +39,7 @@ export default function EditUserModal({ user, onClose, onUpdated }: Props) {
 
     const onSubmit = async (data: RegisterFormData) => {
         const updatedUser = await updateUser(user.id, data, token || "");
+        toast.info(t("common.updateUserSuccess"));
         onUpdated(updatedUser);
         onClose();
     };
