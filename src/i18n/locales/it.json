@@ -15,7 +15,8 @@
         "submit": "Registrati",
         "login": "Accedi",
         "submitting": "Creazione account...",
-        "haveAccount": "Hai già un account?"
+        "haveAccount": "Hai già un account?",
+        "generateRandom": "Genera Utente Random"
     },
     "login": {
         "title": "Ben tornato!",

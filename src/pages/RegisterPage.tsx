@@ -9,11 +9,16 @@ import UserForm from "@/components/UserForm";
 import { FormProvider } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, Shuffle } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { toast } from "sonner";
 
+const RANDOM_NAMES = [
+    "Marco Rossi", "Giulia Bianchi", "Luca Ferrari", "Sara Esposito",
+    "Andrea Russo", "Chiara Romano", "Matteo Colombo", "Francesca Ricci",
+];
 
+const RANDOM_GENDERS: ("male" | "female")[] = ["male", "female"];
 
 export default function RegisterPage() {
     const { t } = useTranslation();
@@ -30,13 +35,20 @@ export default function RegisterPage() {
         resolver: zodResolver(registerSchema),
         mode: "onTouched",
         defaultValues: {
-            name: "Test User",
-            gender: "male",
-            email: generateEmail("Test User"),
+            name: "",
+            gender: undefined,
+            email: "",
         },
     });
 
-    const { handleSubmit, formState: { isSubmitting } } = methods;
+    const { handleSubmit, reset, formState: { isSubmitting } } = methods;
+
+    const handleGenerateRandom = () => {
+        const name = RANDOM_NAMES[Math.floor(Math.random() * RANDOM_NAMES.length)];
+        const gender = RANDOM_GENDERS[Math.floor(Math.random() * RANDOM_GENDERS.length)];
+        const email = generateEmail(name);
+        reset({ name, gender, email });
+    };
 
 
 
@@ -58,8 +70,19 @@ export default function RegisterPage() {
     return (
         <Card className="w-full max-w-md shadow-sm p-8">
             <CardHeader>
-                <CardTitle className="text-xl font-semibold">{t("register.title")}</CardTitle>
-                {apiError && (
+                <div className="flex items-center justify-between">
+                    <CardTitle className="text-xl font-semibold">{t("register.title")}</CardTitle>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={handleGenerateRandom}
+                        className="cursor-pointer gap-1.5 text-xs"
+                    >
+                        <Shuffle size={13} />
+                        {t("register.generateRandom")}
+                    </Button>
+                </div>                {apiError && (
                     <div className="mt-2 p-3 bg-destructive/10 border border-destructive/20 text-destructive rounded-lg text-sm">
                         {apiError}
                     </div>
