@@ -13,16 +13,21 @@
         "genderMale": "Male",
         "genderFemale": "Female",
         "submit": "Register",
+        "login": "Login",
         "submitting": "Creating account...",
-        "haveAccount": "Already have an account? Login"
+        "haveAccount": "Already have an account?"
     },
     "login": {
-        "title": "Login",
+        "title": "Welcome Back!",
+        "subtitle": "Sign in to your account to continue",
         "email": "Email",
         "submit": "Login",
         "submitting": "Logging in...",
-        "noAccount": "Don't have an account? Register",
-        "emailNotFoundError": "No user found with this email."
+        "noAccount": "Don't have an account?",
+        "register": "Register",
+        "emailNotFoundError": "No user found with this email.",
+        "blockedError": "Your account has been blocked. Please contact support.",
+        "genericError": "Something went wrong. Please try again."
     },
     "posts": {
         "title": "Posts",

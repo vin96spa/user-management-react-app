@@ -13,16 +13,21 @@
         "genderMale": "Maschio",
         "genderFemale": "Femmina",
         "submit": "Registrati",
+        "login": "Accedi",
         "submitting": "Creazione account...",
-        "haveAccount": "Hai già un account? Accedi"
+        "haveAccount": "Hai già un account?"
     },
     "login": {
-        "title": "Accedi",
+        "title": "Ben tornato!",
+        "subtitle": "Accedi al tuo account per continuare",
         "email": "Email",
         "submit": "Accedi",
         "submitting": "Accesso in corso...",
-        "noAccount": "Non hai un account? Registrati",
-        "emailNotFoundError": "Nessun utente trovato con questa email."
+        "noAccount": "Non hai un account?",
+        "register": "Registrati",
+        "emailNotFoundError": "Nessun utente trovato con questa email.",
+        "blockedError": "Il tuo account è stato bloccato. Contatta il supporto.",
+        "genericError": "Qualcosa è andato storto. Riprova."
     },
     "posts": {
         "title": "Post",

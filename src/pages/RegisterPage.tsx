@@ -50,33 +50,46 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="bg-white p-8 rounded shadow w-full max-w-md">
-            <div className="flex center items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold mb-6">{t("register.title")}</h1>
-                <Link to="/login" className="text-sm text-blue-600 hover:underline mb-4 inline-block">
-                    {t("register.haveAccount")}
-                </Link>
-            </div>
+        <div className="flex-1 flex items-center justify-center px-4 pb-10">
+            <div className="bg-white rounded-2xl p-8 shadow w-full max-w-md">
 
-            {apiError && (
-                <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">
-                    {apiError}
+                {/* header */}
+                <div className="mb-6">
+                    <p className="text-xl font-semibold text-gray-900 mb-1">
+                        {t("register.title")}
+                    </p>
                 </div>
-            )}
 
-            <FormProvider {...methods}>
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-                    <UserForm />
-                    <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
+                {apiError && (
+                    <div className="mb-4 p-3 bg-red-50 border border-red-100 text-red-600 rounded-lg text-sm">
+                        {apiError}
+                    </div>
+                )}
+
+                <FormProvider {...methods}>
+                    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
+                        <UserForm />
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full bg-gray-900 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-gray-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
+                        >
+                            {isSubmitting ? t("register.submitting") : t("register.submit")}
+                        </button>
+                    </form>
+                </FormProvider>
+
+                {/* link login */}
+                <div className="mt-6 pt-5 border-t border-gray-100 text-center">
+                    <span className="text-xs text-gray-400">{t("register.haveAccount")} </span>
+                    <Link
+                        to="/login"
+                        className="text-xs font-medium text-gray-900 hover:underline"
                     >
-                        {isSubmitting ? t("register.submitting") : t("register.submit")}
-                    </button>
-                </form>
-            </FormProvider>
-
-        </div >
+                        {t("register.login")}
+                    </Link>
+                </div>
+            </div >
+        </div>
     );
 }
