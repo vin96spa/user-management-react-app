@@ -47,7 +47,9 @@
         "newPostBody": "Write your post...",
         "publish": "Publish",
         "publishing": "Publishing...",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "backToPosts": "Post List",
+        "notFound": "Post Not Found!"
     },
     "comments": {
         "noComments": "No comments yet.",

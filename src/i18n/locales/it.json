@@ -47,7 +47,9 @@
         "newPostBody": "Scrivi il tuo post...",
         "publish": "Pubblica",
         "publishing": "Pubblicazione...",
-        "cancel": "Annulla"
+        "cancel": "Annulla",
+        "backToPosts": "Lista Post",
+        "notFound": "Post non trovato!"
     },
     "comments": {
         "noComments": "Nessun commento ancora.",

@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/store/authStore";
 import { type Post } from "@/types/Post";
@@ -11,7 +11,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-
 interface Props {
     onPostCreated: (post: Post) => void;
     onCancel: () => void;
@@ -26,10 +25,16 @@ export default function NewPostForm({ onPostCreated, onCancel }: Props) {
     const {
         register,
         handleSubmit,
+        control,
         formState: { errors, isSubmitting },
     } = useForm<PostFormData>({
         resolver: zodResolver(postSchema),
     });
+
+    const title = useWatch({ control, name: "title", defaultValue: "" });
+
+    const body = useWatch({ control, name: "body", defaultValue: "" });
+
 
     const onSubmit = async (data: PostFormData) => {
         if (!userId || !token) return;
@@ -56,7 +61,11 @@ export default function NewPostForm({ onPostCreated, onCancel }: Props) {
                         <Input
                             {...register("title")}
                             placeholder={t("posts.newPostTitle")}
+                            maxLength={75}
                         />
+                        <span className={`self-end text-xs ${title.length > 55 ? "text-destructive" : "text-muted-foreground"}`}>
+                            {title.length}/75
+                        </span>
                         {errors.title && (
                             <p className="text-destructive text-xs">{errors.title.message}</p>
                         )}
@@ -67,8 +76,12 @@ export default function NewPostForm({ onPostCreated, onCancel }: Props) {
                             {...register("body")}
                             placeholder={t("posts.newPostBody")}
                             rows={4}
+                            maxLength={500}
                             className="resize-none"
                         />
+                        <span className={`self-end text-xs ${body.length > 450 ? "text-destructive" : "text-muted-foreground"}`}>
+                            {body.length}/500
+                        </span>
                         {errors.body && (
                             <p className="text-destructive text-xs">{errors.body.message}</p>
                         )}

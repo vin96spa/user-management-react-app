@@ -23,7 +23,7 @@ export default function RegisterPage() {
 
     const generateEmail = (name: string) => {
         const normalized = name.toLowerCase().replace(/\s+/g, ".");
-        return `${normalized}.${Math.floor(Math.random() * 10000)}@/test.com`;
+        return `${normalized}.${Math.floor(Math.random() * 10000)}@test.com`;
     };
 
     const methods = useForm<RegisterFormData>({

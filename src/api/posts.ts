@@ -5,6 +5,9 @@ import { type Comment } from "@/types/Post";
 export const getAllPosts = (token: string) =>
     apiClient("/posts", { method: "GET" }, token);
 
+export const getPostById = (postId: number, token: string) =>
+    apiClient(`/posts/${postId}`, { method: "GET" }, token);
+
 export const getUserPosts = (userId: number, token: string) =>
     apiClient(`/users/${userId}/posts`, { method: "GET" }, token);
 

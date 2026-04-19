@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { commentSchema, type CommentFormData } from "@/validations/postSchema";
 import { getPostComments, createComment } from "@/api/posts";
@@ -27,11 +27,14 @@ export default function CommentSection({ postId }: Props) {
     const {
         register,
         handleSubmit,
+        control,
         reset,
         formState: { errors, isSubmitting },
     } = useForm<CommentFormData>({
         resolver: zodResolver(commentSchema),
     });
+
+    const body = useWatch({ control, name: "body", defaultValue: "" });
 
     // load comments when the component mounts
     useEffect(() => {
@@ -77,13 +80,17 @@ export default function CommentSection({ postId }: Props) {
 
             {/* new comment form */}
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2" >
-                <div>
+                <div className="flex flex-wrap gap-1.5">
                     <Textarea
                         {...register("body")}
                         placeholder={t("comments.bodyPlaceholder")}
                         rows={2}
+                        maxLength={100}
                         className="resize-none text-sm"
                     />
+                    <span className={`w-full text-end text-xs ${body.length > 85 ? "text-destructive" : "text-muted-foreground"}`}>
+                        {body.length}/100
+                    </span>
                     {
                         errors.body && (
                             <p className="text-destructive text-xs mt-1"> {errors.body.message} </p>
