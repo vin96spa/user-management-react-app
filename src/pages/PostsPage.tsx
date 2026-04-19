@@ -1,42 +1,28 @@
-import { useState } from "react";
 import MyPostsTab from "@/components/MyPostsTab";
 import AllPostsTab from "@/components/AllPostsTab";
 import { useTranslation } from "react-i18next";
-
-type Tab = "mine" | "all";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function PostsPage() {
     const { t } = useTranslation();
-    const [activeTab, setActiveTab] = useState<Tab>("mine");
 
     return (
         <div>
             <h2 className="text-2xl font-bold mb-6">{t("posts.title")}</h2>
 
             {/* Tab switcher */}
-            <div className="flex gap-1 mb-6 bg-gray-200 p-1 rounded w-fit">
-                <button
-                    onClick={() => setActiveTab("mine")}
-                    className={`px-4 py-2 text-sm rounded transition-colors cursor-pointer ${activeTab === "mine"
-                            ? "bg-white text-blue-600 font-semibold shadow"
-                            : "text-gray-600 hover:text-gray-900"
-                        }`}
-                >
-                    {t("posts.myPosts")}
-                </button>
-                <button
-                    onClick={() => setActiveTab("all")}
-                    className={`px-4 py-2 text-sm rounded transition-colors cursor-pointer ${activeTab === "all"
-                            ? "bg-white text-blue-600 font-semibold shadow"
-                            : "text-gray-600 hover:text-gray-900"
-                        }`}
-                >
-                    {t("posts.allPosts")}
-                </button>
-            </div>
-
-            {/* Contenuto tab attiva */}
-            {activeTab === "mine" ? <MyPostsTab /> : <AllPostsTab />}
+            <Tabs defaultValue="mine">
+                <TabsList className="mb-6 px-3 py-6 bg-gray-200 rounded-lg w-max">
+                    <TabsTrigger className="p-4 text-black hover:text-gray-700 data-[state=active]:bg-gray-800 data-[state=active]:text-white" value="mine">{t("posts.myPosts")}</TabsTrigger>
+                    <TabsTrigger className="p-4 text-black hover:text-gray-700 data-[state=active]:bg-gray-800 data-[state=active]:text-white" value="all">{t("posts.allPosts")}</TabsTrigger>
+                </TabsList>
+                <TabsContent value="mine">
+                    <MyPostsTab />
+                </TabsContent>
+                <TabsContent value="all">
+                    <AllPostsTab />
+                </TabsContent>
+            </Tabs>
         </div>
     );
 }

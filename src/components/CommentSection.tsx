@@ -7,6 +7,9 @@ import { useAuthStore } from "@/store/authStore";
 import type { Comment } from "@/types/Post";
 import { useTranslation } from "react-i18next";
 import { useLoader } from "@/context/LoaderContext";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 
 interface Props {
     postId: number;
@@ -51,18 +54,18 @@ export default function CommentSection({ postId }: Props) {
     };
 
     return (
-        <div className="mt-3 border-t pt-3">
+        <div className="mt-4 border-t pt-4">
             {/* comment list */}
             {
                 comments.length === 0 ? (
-                    <p className="text-sm text-gray-400">{t("comments.noComments")}</p>
+                    <p className="text-sm text-muted-foreground font-semibold mb-3">{t("comments.noComments")}</p>
                 ) : (
-                            <ul className="flex flex-col gap-2 mb-3 max-h-40 overflow-y-auto pr-1">
+                            <ul className="flex flex-col gap-2 mb-4 max-h-40 overflow-y-auto pr-1">
                         {
                             comments.map((comment) => (
-                                <li key={comment.id} className="text-sm bg-gray-50 rounded p-2">
+                                <li key={comment.id} className="text-sm bg-muted rounded-lg px-3 py-2">
                                     <p className="font-medium"> {comment.name} </p>
-                                    <p className="text-gray-600"> {comment.body} </p>
+                                    <p className="font-muted-foreground"> {comment.body} </p>
                                 </li>
                             ))
                         }
@@ -73,26 +76,27 @@ export default function CommentSection({ postId }: Props) {
             {/* new comment form */}
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2" >
                 <div>
-                    <textarea
+                    <Textarea
                         {...register("body")}
                         placeholder={t("comments.bodyPlaceholder")}
                         rows={2}
-                        className="w-full border rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                        className="resize-none text-sm"
                     />
                     {
                         errors.body && (
-                            <p className="text-red-500 text-xs mt-1"> {errors.body.message} </p>
+                            <p className="text-destructive text-xs mt-1"> {errors.body.message} </p>
                         )
                     }
                 </div>
 
-                <button
+                <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="self-end px-3 py-1.5 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                    className="self-end cursor-pointer py-4 bg-gray-900 hover:bg-gray-800"
                 >
+                    {isSubmitting && <Loader2 size={13} className="animate-spin" />}
                     {isSubmitting ? t("comments.submitting") : t("comments.submit")}
-                </button>
+                </Button>
             </form>
         </div>
     );

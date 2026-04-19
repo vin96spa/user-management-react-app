@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
+import LanguageSwitcher from "@/components/custom-ui/LanguageSwitcher";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -7,9 +6,9 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
             {/* navbar minimale */}
             <header className="flex items-center justify-between px-6 py-4">
-                <Link to="/login" className="text-white font-bold text-xl tracking-tight">
+                <span className="text-white font-bold text-xl tracking-tight">
                     DEMO SOCIAL NETWORK APP
-                </Link>
+                </span>
                 <LanguageSwitcher variant="dark"/>
             </header>
 

@@ -3,8 +3,11 @@ import { useTranslation } from "react-i18next";
 import { LogOut } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { getInitials } from "@/utils/formatters";
-import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
+import LanguageSwitcher from "@/components/custom-ui/LanguageSwitcher";
 import { useLoader } from "@/context/LoaderContext";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
     const { t } = useTranslation();
@@ -51,8 +54,8 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                         <Link
                             key={link.to}
                             to={link.to}
-                            className={`text-sm px-3 py-1.5 rounded-md transition-colors ${isActive(link.to)
-                                    ? "bg-white/10 text-white"
+                            className={`text-sm px-3 py-1.5 rounded-md transition-color ${isActive(link.to)
+                                    ? "bg-gray-800 text-white"
                                     : "text-gray-400 hover:text-white hover:bg-white/5"
                                 }`}
                         >
@@ -65,29 +68,32 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
                     <LanguageSwitcher variant="dark" />
 
-                    <div className="w-px h-5 bg-white/15" />
+                    <Separator orientation="vertical" className="h-5 bg-white/15 m-auto" />
 
                     <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-full bg-gray-700 flex items-center justify-center text-[11px] font-medium text-gray-300">
-                            {userName ? getInitials(userName) : "?"}
-                        </div>
+                        <Avatar className="w-7 h-7">
+                            <AvatarFallback className="bg-gray-700 text-gray-300 text-[11px]">
+                                {userName ? getInitials(userName) : "?"}
+                            </AvatarFallback>
+                        </Avatar>
                         <span className="text-sm text-gray-300">{userName}</span>
                     </div>
 
-                    <div className="w-px h-5 bg-white/15" />
+                    <Separator orientation="vertical" className="h-5 bg-white/15 m-auto" />
 
-                    <button
+                    <Button
+                        size="sm"
                         onClick={onLogout}
-                        className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-red-400 transition-colors cursor-pointer"
+                        className="flex items-center gap-1.5 text-gray-400 hover:text-red-400 bg-gray-900 transition-colors cursor-pointer px-0"
                     >
                         <LogOut size={14} />
                         {t("nav.logout")}
-                    </button>
+                    </Button>
 
                 </div>
             </nav>
 
-            <main className="mt-14 flex-1 p-6 bg-gray-100 min-h-screen">
+            <main className="mt-14 flex-1 p-6 bg-gray-200 min-h-screen">
                 {children}
             </main>
         </div>

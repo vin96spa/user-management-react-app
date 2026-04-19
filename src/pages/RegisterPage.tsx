@@ -8,6 +8,9 @@ import { useAuthStore } from "@/store/authStore";
 import UserForm from "@/components/UserForm";
 import { FormProvider } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 
 
 
@@ -50,46 +53,47 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="flex-1 flex items-center justify-center px-4 pb-10">
-            <div className="bg-white rounded-2xl p-8 shadow w-full max-w-md">
-
-                {/* header */}
-                <div className="mb-6">
-                    <p className="text-xl font-semibold text-gray-900 mb-1">
-                        {t("register.title")}
-                    </p>
-                </div>
-
+        <Card className="w-full max-w-md shadow-sm p-8">
+            <CardHeader>
+                <CardTitle className="text-xl font-semibold">{t("register.title")}</CardTitle>
                 {apiError && (
-                    <div className="mb-4 p-3 bg-red-50 border border-red-100 text-red-600 rounded-lg text-sm">
+                    <div className="mt-2 p-3 bg-destructive/10 border border-destructive/20 text-destructive rounded-lg text-sm">
                         {apiError}
                     </div>
                 )}
-
+            </CardHeader>
+            <CardContent className="py-2">
                 <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
                         <UserForm />
-                        <button
+                        <Button
                             type="submit"
+                            size="lg"
                             disabled={isSubmitting}
-                            className="w-full bg-gray-900 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-gray-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
+                            className="w-full bg-gray-900 text-white hover:bg-gray-700 disabled:opacity-50 transition-colors cursor-pointer"
                         >
-                            {isSubmitting ? t("register.submitting") : t("register.submit")}
-                        </button>
+                            {isSubmitting ?
+                                <>
+                                    <Loader2 className="animate-spin" />
+                                    {t("register.submitting")}
+                                </>
+                                : t("register.submit")}
+                        </Button>
                     </form>
                 </FormProvider>
+            </CardContent>
 
+            <CardFooter className="border-t -mx-8 px-8 py-5 flex items-center justify-center gap-0.5">
                 {/* link login */}
-                <div className="mt-6 pt-5 border-t border-gray-100 text-center">
-                    <span className="text-xs text-gray-400">{t("register.haveAccount")} </span>
-                    <Link
-                        to="/login"
-                        className="text-xs font-medium text-gray-900 hover:underline"
-                    >
-                        {t("register.login")}
-                    </Link>
-                </div>
-            </div >
-        </div>
+                <span className="text-xs text-muted-foreground">{t("register.haveAccount")} </span>
+                <Link
+                    to="/login"
+                    className="text-xs font-medium text-gray-900 hover:underline"
+                >
+                    {t("register.login")}
+                </Link>
+            </CardFooter>
+        </Card>
+
     );
 }

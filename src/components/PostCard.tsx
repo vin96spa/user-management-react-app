@@ -2,6 +2,9 @@ import { useState } from "react";
 import type { Post } from "@/types/Post";
 import CommentSection from "./CommentSection";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { MessageSquare, Share2, Check } from "lucide-react";
 
 interface Props {
     post: Post;
@@ -23,28 +26,35 @@ export default function PostCard({ post }: Props) {
     };
 
     return (
-        <div className="bg-white p-4 rounded shadow">
-            <h3 className="font-semibold text-lg">{post.title}</h3>
-            <p className="text-gray-600 text-sm mt-1">{post.body}</p>
+        <Card>
+            <CardContent>
+                <h3 className="font-semibold text-lg">{post.title}</h3>
+                <p className="text-muted-foreground text-sm mt-1">{post.body}</p>
 
-            <div className="flex gap-3 mt-3">
-                <button
-                    onClick={() => setShowComments((prev) => !prev)}
-                    className="text-sm text-blue-600 hover:underline cursor-pointer"
-                >
-                    {showComments ? t("posts.hideComments") : t("posts.comments")}
-                </button>
+                <div className="flex gap-2 mt-4">
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setShowComments((prev) => !prev)}
+                        className="cursor-pointer text-muted-foreground hover:text-foreground gap-1.5"
+                    >
+                        <MessageSquare size={14} />
+                        {showComments ? t("posts.hideComments") : t("posts.comments")}
+                    </Button>
 
-                <button
-                    onClick={handleShare}
-                    className="text-sm text-blue-600 hover:underline cursor-pointer"
-                >
-                    {copied ? t("posts.copied") : t("posts.share")}
-                </button>
-            </div>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleShare}
+                        className="cursor-pointer text-muted-foreground hover:text-foreground gap-1.5"
+                    >
+                        {copied ? <Check size={14} className="text-green-500" /> : <Share2 size={14} />}
+                        {copied ? t("posts.copied") : t("posts.share")}
+                    </Button>
+                </div>
 
-            {/* CommentSection mounts only when showComments is true */}
-            {showComments && <CommentSection postId={post.id} />}
-        </div>
+                {showComments && <CommentSection postId={post.id} />}
+            </CardContent>
+        </Card>
     );
 }

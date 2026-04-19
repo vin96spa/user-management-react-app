@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pencil, Ban, ShieldCheck, Trash2 } from "lucide-react";
+import { Pencil, Ban, ShieldCheck, Trash2, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { getUsers, blockUser, unblockUser } from "@/api/users";
 import { useAuthStore } from "@/store/authStore";
 import { useLoader } from "@/context/LoaderContext";
@@ -8,7 +8,18 @@ import type { User } from "@/types/User";
 import EditUserModal from "@/components/admin/EditUserModal";
 import DeleteUserModal from "@/components/admin/DeleteUserModal";
 import { getInitials } from "@/utils/formatters";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination";
 
 type StatusFilter = "all" | "active" | "inactive";
 
@@ -94,166 +105,167 @@ export default function AdminDashboardPage() {
             <div className="flex items-center justify-between mb-5">
                 <div className="flex gap-2">
                     {(["all", "active", "inactive"] as StatusFilter[]).map((filter) => (
-                        <button
+                        <Button
                             key={filter}
+                            size="sm"
+                            variant={statusFilter === filter ? "default" : "outline"}
                             onClick={() => handleFilterChange(filter)}
-                            className={`text-xs px-3 py-1.5 rounded-lg border transition-colors cursor-pointer ${statusFilter === filter
-                                ? "bg-gray-900 text-white border-gray-900"
-                                : "border-gray-200 text-gray-500 hover:bg-gray-50"
-                                }`}
+                            className="text-xs cursor-pointer"
                         >
                             {t(`admin.filter.${filter}`)}
-                        </button>
+                        </Button>
                     ))}
                 </div>
-                <span className="text-xs text-gray-400">
+                <span className="text-xs text-muted-foreground">
                     {filteredUsers.length} {t("admin.filter.results")}
                 </span>
             </div>
 
             {error && (
-                <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">
+                <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 text-destructive rounded-lg text-sm">
                     {error}
                 </div>
             )}
 
-            <div className="flex flex-col gap-3">
-                {paginatedUsers.map((user) => (
-                    <div
-                        key={user.id}
-                        className="bg-white border border-gray-100 rounded-xl px-5 py-4 flex items-center justify-between gap-4"
-                    >
-                        {/* avatar + info */}
-                        <div className="flex items-center gap-4">
+            {paginatedUsers.map((user) => (
+                <Card
+                    key={user.id}
+                    className="px-5 py-4 flex flex-row grow items-center justify-between gap-4 mb-4"
+                >
+                    {/* avatar + info */}
+                    <div className="flex items-center gap-4">
 
-                            <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0 ${user.status === "active"
+                        <Avatar className="w-10 h-10">
+                            <AvatarFallback className={user.status === "active"
                                 ? "bg-blue-50 text-blue-600"
                                 : "bg-gray-100 text-gray-400"
-                                }`}>
+                            }>
                                 {getInitials(user.name)}
+                            </AvatarFallback>
+                        </Avatar>
+
+                        <div className="flex flex-col gap-1">
+                            <div className="flex items-baseline gap-2">
+                                <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide w-10">
+                                    {t("admin.fields.name")}
+                                </span>
+                                <span className="text-sm font-semibold text-gray-800">
+                                    {user.name}
+                                </span>
                             </div>
 
-                            <div className="flex flex-col gap-1">
-                                <div className="flex items-baseline gap-2">
-                                    <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide w-10">
-                                        {t("admin.fields.name")}
-                                    </span>
-                                    <span className="text-sm font-semibold text-gray-800">
-                                        {user.name}
-                                    </span>
-                                </div>
-
-                                <div className="flex items-baseline gap-2">
-                                    <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide w-10">
-                                        {t("admin.fields.email")}
-                                    </span>
-                                    <span className="text-sm text-gray-500">
-                                        {user.email}
-                                    </span>
-                                </div>
-
-                                <div className="flex items-center gap-2 mt-0.5">
-                                    <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide w-10">
-                                        {t("admin.fields.status")}
-                                    </span>
-                                    <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${user.status === "active"
-                                        ? "bg-green-50 text-green-700"
-                                        : "bg-red-50 text-red-600"
-                                        }`}>
-                                        {user.status === "active"
-                                            ? t("admin.status.active")
-                                            : t("admin.status.inactive")}
-                                    </span>
-                                </div>
+                            <div className="flex items-baseline gap-2">
+                                <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide w-10">
+                                    {t("admin.fields.email")}
+                                </span>
+                                <span className="text-sm text-gray-500">
+                                    {user.email}
+                                </span>
                             </div>
-                        </div>
 
-                        {/* actions */}
-                        <div className="flex items-center gap-2 flex-shrink-0">
-
-                            {/* edit */}
-                            <button
-                                onClick={() => setEditingUser(user)}
-                                className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors cursor-pointer"
-                            >
-                                <Pencil size={12} />
-                                {t("admin.edit")}
-                            </button>
-
-                            {/* block / unblock */}
-                            <button
-                                onClick={() => handleToggleStatus(user)}
-                                disabled={loadingUserId === user.id}
-                                className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-colors cursor-pointer disabled:opacity-40 ${user.status === "active"
-                                    ? "border-orange-300 text-orange-500 hover:bg-orange-50"
-                                    : "border-green-300 text-green-600 hover:bg-green-50"
-                                    }`}
-                            >
-                                {loadingUserId === user.id ? (
-                                    <span className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                                ) : user.status === "active" ? (
-                                    <Ban size={12} />
-                                ) : (
-                                    <ShieldCheck size={12} />
-                                )}
-                                {loadingUserId === user.id
-                                    ? "..."
-                                    : user.status === "active"
-                                        ? t("admin.block")
-                                        : t("admin.unblock")}
-                            </button>
-
-                            {/* delete */}
-                            <button
-                                onClick={() => setDeletingUser(user)}
-                                className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-red-200 text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
-                            >
-                                <Trash2 size={12} />
-                                {t("admin.delete")}
-                            </button>
-
+                            <div className="flex items-center gap-2 mt-0.5">
+                                <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide w-10">
+                                    {t("admin.fields.status")}
+                                </span>
+                                <Badge variant={user.status === "active" ? "default" : "destructive"} className="text-[11px] px-2 py-0.5">
+                                    {user.status === "active"
+                                        ? t("admin.status.active")
+                                        : t("admin.status.inactive")}
+                                </Badge >
+                            </div>
                         </div>
                     </div>
-                ))}
-            </div>
+
+                    {/* actions */}
+                    <div className="flex items-center gap-2 shrink-0">
+
+                        {/* edit */}
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setEditingUser(user)}
+                            className="text-xs cursor-pointer bg-blue-50 text-blue-600 hover:bg-blue-200 hover:text-blue-700"
+                        >
+                            <Pencil size={12} />
+                            {t("admin.edit")}
+                        </Button>
+
+                        {/* block / unblock */}
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleToggleStatus(user)}
+                            disabled={loadingUserId === user.id}
+                            className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-colors cursor-pointer disabled:opacity-40 ${user.status === "active"
+                                ? "border-orange-300 text-orange-500 hover:bg-orange-50 hover:text-orange-600"
+                                : "border-black text-black hover:bg-black hover:text-white"
+                                }`}
+                        >
+                            {loadingUserId === user.id ? (
+                                <Loader2 size={12} className="animate-spin" />
+                            ) : user.status === "active" ? (
+                                <Ban size={12} />
+                            ) : (
+                                <ShieldCheck size={12} />
+                            )}
+                            {loadingUserId === user.id
+                                ? "..."
+                                : user.status === "active"
+                                    ? t("admin.block")
+                                    : t("admin.unblock")}
+                        </Button>
+
+                        {/* delete */}
+                        <Button
+                            onClick={() => setDeletingUser(user)}
+                            variant="outline"
+                            size="sm"
+                            className="text-xs cursor-pointer border-red-200 text-red-500 hover:bg-red-50 hover:text-red-600"
+                        >
+                            <Trash2 size={12} />
+                            {t("admin.delete")}
+                        </Button>
+
+                    </div>
+                </Card>
+            ))}
 
             {/* pagination */}
             {totalPages > 1 && (
-                <div className="flex items-center justify-between mt-6">
-                    <button
-                        onClick={() => setCurrentPage((prev) => prev - 1)}
-                        disabled={currentPage === 1}
-                        className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
-                    >
-                        <ChevronLeft size={14} />
-                        {t("admin.pagination.prev")}
-                    </button>
-
-                    {/* page numbers */}
-                    <div className="flex items-center gap-1">
+                <Pagination className="mt-6">
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious
+                                onClick={() => setCurrentPage((prev) => prev - 1)}
+                                className={currentPage === 1 ? "pointer-events-none opacity-40" : "hover:bg-gray-200 hover:text-gray-700 cursor-pointer"}
+                                text={t("admin.pagination.prev")}
+                            />
+                        </PaginationItem>
+                        {/* page numbers */}
                         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                            <button
-                                key={page}
-                                onClick={() => setCurrentPage(page)}
-                                className={`w-7 h-7 text-xs rounded-lg transition-colors cursor-pointer ${currentPage === page
-                                    ? "bg-gray-900 text-white"
-                                    : "text-gray-500 hover:bg-gray-100"
-                                    }`}
-                            >
-                                {page}
-                            </button>
+                            <PaginationItem key={page}>
+                                <PaginationLink
+                                    isActive={currentPage === page}
+                                    onClick={() => setCurrentPage(page)}
+                                    className={`cursor-pointer ${currentPage === page
+                                        ? "bg-black text-white hover:bg-gray-800 hover:text-white"
+                                        : "text-gray-500 hover:bg-gray-500 hover:text-white"
+                                        }`}
+                                >
+                                    {page}
+                                </ PaginationLink>
+                            </PaginationItem>
                         ))}
-                    </div>
 
-                    <button
-                        onClick={() => setCurrentPage((prev) => prev + 1)}
-                        disabled={currentPage === totalPages}
-                        className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
-                    >
-                        {t("admin.pagination.next")}
-                        <ChevronRight size={14} />
-                    </button>
-                </div>
+                        <PaginationItem>
+                            <PaginationNext
+                                onClick={() => setCurrentPage((prev) => prev + 1)}
+                                className={currentPage === totalPages ? "pointer-events-none opacity-40" : "hover:bg-gray-200 hover:text-gray-700 cursor-pointer"}
+                                text={t("admin.pagination.next")}
+                            />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
             )}
 
             {editingUser && (

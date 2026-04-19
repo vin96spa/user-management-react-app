@@ -1,10 +1,19 @@
 import { useState } from "react";
-import { Trash2 } from "lucide-react";
+import { Trash2, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { deleteUser } from "@/api/users";
 import { useAuthStore } from "@/store/authStore";
 import type { User } from "@/types/User";
 import { getInitials } from "@/utils/formatters";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+} from "@/components/ui/dialog";
 
 interface Props {
     user: User;
@@ -33,43 +42,42 @@ export default function DeleteUserModal({ user, onClose, onDeleted }: Props) {
     };
 
     return (
-        <div
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-            onClick={onClose}
-        >
-            <div
-                className="bg-white rounded-xl border border-gray-100 w-full max-w-sm overflow-hidden"
-                onClick={(e) => e.stopPropagation()}
+        <Dialog open onOpenChange={onClose}>
+            <DialogContent
+                className="p-8"
+                aria-describedby={undefined}
+                onOpenAutoFocus={(e) => e.preventDefault()}
             >
-                {/* header rosso */}
-                <div className="bg-red-50 border-b border-red-100 px-6 py-4 flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                <div className="bg-red-50 border-b border-red-100 -mx-1 px-6 py-4 flex items-center gap-3 rounded-2xl">
+                    <div className="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center shrink-0">
                         <Trash2 size={16} className="text-red-600" />
                     </div>
-                    <div>
-                        <p className="text-sm font-semibold text-red-800">
+                    <DialogHeader>
+                        <DialogTitle className="text-sm font-semibold text-red-800">
                             {t("admin.deleteModal.title")}
-                        </p>
-                        <p className="text-xs text-red-600">
+                        </DialogTitle>
+                        <DialogDescription className="text-xs text-red-600">
                             {t("admin.deleteModal.warning")}
-                        </p>
-                    </div>
+                        </DialogDescription>
+                    </DialogHeader>
                 </div>
 
                 {/* body */}
-                <div className="px-6 py-5">
-                    <p className="text-sm text-gray-500 mb-3">
+                <div>
+                    <p className="text-sm text-muted-foreground mb-3">
                         {t("admin.deleteModal.message")}
                     </p>
 
-                    {/* card utente */}
-                    <div className="bg-gray-50 rounded-lg px-4 py-3 flex items-center gap-3 mb-5">
-                        <div className="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center text-xs font-semibold text-red-600 flex-shrink-0">
-                            {getInitials(user.name)}
-                        </div>
+                    {/*user card */}
+                    <div className="bg-muted rounded-lg px-4 py-3 flex items-center gap-3 mb-5">
+                        <Avatar className="w-9 h-9 shrink-0">
+                            <AvatarFallback className="bg-red-100 text-red-600 text-xs font-semibold">
+                                {getInitials(user.name)}
+                            </AvatarFallback>
+                        </Avatar>
                         <div>
-                            <p className="text-sm font-semibold text-gray-800">{user.name}</p>
-                            <p className="text-xs text-gray-400">{user.email}</p>
+                            <p className="text-sm font-semibold">{user.name}</p>
+                            <p className="text-xs text-muted-foreground">{user.email}</p>
                         </div>
                     </div>
 
@@ -77,29 +85,32 @@ export default function DeleteUserModal({ user, onClose, onDeleted }: Props) {
                         <p className="text-red-500 text-xs mb-4">{error}</p>
                     )}
 
-                    {/* azioni */}
+                    {/* actions */}
                     <div className="flex gap-2 justify-end">
-                        <button
+                        <Button
+                            size="lg"
+                            variant="outline"
                             onClick={onClose}
-                            className="text-sm px-4 py-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors cursor-pointer"
+                            className="cursor-pointer"
                         >
                             {t("admin.deleteModal.cancel")}
-                        </button>
-                        <button
+                        </Button>
+                        <Button
+                            size="lg"
                             onClick={handleDelete}
                             disabled={isDeleting}
-                            className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
+                            className="cursor-pointer bg-red-600 hover:bg-red-700 text-white"
                         >
                             {isDeleting ? (
-                                <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                <Loader2 size={13} className="animate-spin" />
                             ) : (
                                 <Trash2 size={13} />
                             )}
                             {isDeleting ? t("admin.deleteModal.deleting") : t("admin.deleteModal.confirm")}
-                        </button>
+                        </Button>
                     </div>
                 </div>
-            </div>
-        </div>
+            </DialogContent>
+        </Dialog>
     );
 }

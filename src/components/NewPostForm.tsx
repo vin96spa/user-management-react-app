@@ -5,6 +5,11 @@ import { type Post } from "@/types/Post";
 import { createPost } from "@/api/posts";
 import { type PostFormData, postSchema } from "@/validations/postSchema";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
 
 interface Props {
     onPostCreated: (post: Post) => void;
@@ -36,51 +41,57 @@ export default function NewPostForm({ onPostCreated, onCancel }: Props) {
     };
 
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="bg-white p-4 rounded shadow mb-4 flex flex-col gap-3"
-        >
-            <h2 className="font-semibold text-lg">{t("posts.newPost")}</h2>
-
-            <div>
-                <input
-                    {...register("title")}
-                    placeholder={t("posts.newPostTitle")}
-                    className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                {errors.title && (
-                    <p className="text-red-500 text-xs mt-1">{errors.title.message}</p>
-                )}
-            </div>
-
-            <div>
-                <textarea
-                    {...register("body")}
-                    placeholder={t("posts.newPostBody")}
-                    rows={4}
-                    className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                />
-                {errors.body && (
-                    <p className="text-red-500 text-xs mt-1">{errors.body.message}</p>
-                )}
-            </div>
-
-            <div className="flex gap-2 justify-end">
-                <button
-                    type="button"
-                    onClick={onCancel}
-                    className="px-4 py-2 text-sm rounded border hover:bg-gray-50 transition-colors cursor-pointer"
+        <Card className="mb-4 p-5">
+            <CardHeader className="pb-3">
+                <CardTitle className="text-lg">{t("posts.newPostCardTitle")}</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="flex flex-col gap-4"
                 >
-                    {t("posts.cancel")}
-                </button>
-                <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
-                >
-                    {isSubmitting ? t("posts.publishing") : t("posts.publish")}
-                </button>
-            </div>
-        </form>
+                    <div className="flex flex-col gap-1.5">
+                        <Input
+                            {...register("title")}
+                            placeholder={t("posts.newPostTitle")}
+                        />
+                        {errors.title && (
+                            <p className="text-destructive text-xs">{errors.title.message}</p>
+                        )}
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                        <Textarea
+                            {...register("body")}
+                            placeholder={t("posts.newPostBody")}
+                            rows={4}
+                            className="resize-none"
+                        />
+                        {errors.body && (
+                            <p className="text-destructive text-xs">{errors.body.message}</p>
+                        )}
+                    </div>
+
+                    <div className="flex gap-2 justify-end">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={onCancel}
+                            className="cursor-pointer"
+                        >
+                            {t("posts.cancel")}
+                        </Button>
+                        <Button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="bg-gray-900 cursor-pointer hover:bg-gray-800 disabled:opacity-50 transition-colors"
+                        >
+                            {isSubmitting && <Loader2 size={13} className="animate-spin" />}
+                            {isSubmitting ? t("posts.publishing") : t("posts.publish")}
+                        </Button>
+                    </div>
+                </form>
+            </CardContent>
+        </Card>
     );
 }

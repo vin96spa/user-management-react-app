@@ -6,6 +6,7 @@ import PostCard from "./PostCard";
 import NewPostForm from "./NewPostForm";
 import { useTranslation } from "react-i18next";
 import { useLoader } from "@/context/LoaderContext";
+import { Button } from "@/components/ui/button";
 
 export default function MyPostsTab() {
     const { t } = useTranslation();
@@ -32,13 +33,13 @@ export default function MyPostsTab() {
     return (
         <div>
             <div className="flex items-center justify-between mb-4">
-                <p className="text-sm text-gray-500">{t("posts.yourPosts")}</p>
-                <button
+                <p className="text-2xl font-semibold">{t("posts.yourPosts")}</p>
+                <Button
                     onClick={() => setShowNewPostForm((prev) => !prev)}
-                    className="px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors cursor-pointer"
+                    className="bg-gray-900 hover:bg-gray-800 cursor-pointer py-5 px-6 rounded-lg text-white"
                 >
                     {showNewPostForm ? t("posts.cancel") : t("posts.newPost")}
-                </button>
+                </Button>
             </div>
 
             {showNewPostForm && (
@@ -48,8 +49,8 @@ export default function MyPostsTab() {
                 />
             )}
 
-            {posts.length === 0 ? (
-                <p className="text-gray-400">{t("posts.noPostsYet")}</p>
+            {posts.length === 0 && !showNewPostForm ? (
+                <p className="text-lg text-gray-700">{t("posts.noPostsYet")}</p>
             ) : (
                 <div className="flex flex-col gap-4">
                     {posts.map((post) => (

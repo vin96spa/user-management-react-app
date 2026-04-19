@@ -22,12 +22,12 @@ export default function AllPostsTab() {
 
     return (
         <div>
-            <p className="text-sm text-gray-500 mb-4">
+            <p className="text-2xl font-semibold mb-4">
                 {t("posts.othersPosts")}
             </p>
 
             {posts.length === 0 ? (
-                <p className="text-gray-400">{t("posts.noPosts")}</p>
+                <p className="text-lg text-gray-700">{t("posts.noPosts")}</p>
             ) : (
                 <div className="flex flex-col gap-4">
                     {posts.map((post) => (

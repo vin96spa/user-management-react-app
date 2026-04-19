@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import Loader from "@/components/ui/Loader";
+import Loader from "@/components/custom-ui/Loader";
 
 interface LoaderContextType {
     showLoader: () => void;

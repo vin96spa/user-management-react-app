@@ -1,11 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { useLoader } from "@/context/LoaderContext";
+import { Button } from "@/components/ui/button";
 
-interface Props {
-    variant?: "light" | "dark";
-}
 
-export default function LanguageSwitcher({ variant = "light" }: Props) {
+export default function LanguageSwitcher() {
     const { i18n } = useTranslation();
     const { showLoader, hideLoader } = useLoader();
 
@@ -17,15 +15,16 @@ export default function LanguageSwitcher({ variant = "light" }: Props) {
         hideLoader();
     };
 
+    const isItalian = i18n.language.startsWith("it");
+
     return (
-        <button
+        <Button
+            size="lg"
+            variant="ghost"
             onClick={toggleLanguage}
-            className={`text-sm px-3 py-1 rounded border transition-colors cursor-pointer ${variant === "dark"
-                    ? "border-gray-500 text-gray-300 hover:bg-gray-700"
-                    : "border-gray-300 text-gray-600 hover:bg-gray-100"
-                }`}
+            className="cursor-pointer text-xs px-3 border-gray-500 text-gray-300 hover:bg-gray-800 hover:text-white"
         >
-            {i18n.language.startsWith("it") ? "🇬🇧 EN" : "🇮🇹 IT"}
-        </button>
+            {isItalian ? "🇬🇧 EN" : "🇮🇹 IT"}
+        </Button>
     );
 }

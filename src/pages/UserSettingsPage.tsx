@@ -9,6 +9,9 @@ import UserForm from "@/components/UserForm";
 import { FormProvider } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useLoader } from "@/context/LoaderContext";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
 
 export default function UserSettingsPage() {
     const { t } = useTranslation();
@@ -79,66 +82,83 @@ export default function UserSettingsPage() {
             <h2 className="text-2xl font-bold mb-6">{t("settings.title")}</h2>
 
             {apiError && (
-                <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">
+                <div className="p-3 bg-destructive/10 border border-destructive/20 text-destructive rounded-lg text-sm">
                     {apiError}
                 </div>
             )}
 
             {/* Edit Form */}
-            <FormProvider {...methods}>
-
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-                    <UserForm />
-
-                    <button
-                        type="submit"
-                        disabled={isSubmitting || !isDirty}
-                        className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
-                    >
-                        {isSubmitting ? t("settings.saving") : t("settings.save")}
-                    </button>
-                </form>
-            </FormProvider>
+            <Card className="p-8">
+                <CardHeader className="pb-3">
+                    <CardTitle className="text-lg font-semibold">
+                        {t("settings.editProfile")}
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <FormProvider {...methods}>
+                        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+                            <UserForm />
+                            <Button
+                                type="submit"
+                                size="lg"
+                                disabled={isSubmitting || !isDirty}
+                                className="w-full mt-2 cursor-pointer bg-gray-900 hover:bg-gray-800 text-white transition-colors"
+                            >
+                                {isSubmitting && <Loader2 className="animate-spin" />}
+                                {isSubmitting ? t("settings.saving") : t("settings.save")}
+                            </Button>
+                        </form>
+                    </FormProvider>
+                </CardContent>
+            </Card>
 
 
             {/* Delete section — visually separated */}
-            <div className="mt-10 border-t pt-6">
-                <h3 className="text-lg font-semibold text-red-600 mb-1">
-                    {t("settings.dangerZone")}
-                </h3>
-                <p className="text-sm text-gray-500 mb-4">
-                    {t("settings.dangerZoneDesc")}
-                </p>
+            <Card className="mt-2 p-8 border-red-300">
+                <CardHeader className="pb-3">
+                    <CardTitle className="text-lg font-semibold text-red-600">
+                        {t("settings.dangerZone")}
+                    </CardTitle>
+                    <CardDescription className="text-muted-foreground">
+                        {t("settings.dangerZoneDesc")}
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
 
-                {!showDeleteConfirm ? (
-                    <button
-                        onClick={() => setShowDeleteConfirm(true)}
-                        className="px-4 py-2 text-sm rounded border border-red-500 text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
-                    >
-                        {t("settings.deleteAccount")}
-                    </button>
-                ) : (
-                    <div className="flex flex-col gap-2">
-                        <p className="text-sm font-medium text-red-600">
-                            {t("settings.confirmDelete")}
-                        </p>
-                        <div className="flex gap-2">
-                            <button
-                                onClick={handleDelete}
-                                className="px-4 py-2 text-sm rounded bg-red-600 text-white hover:bg-red-700 transition-colors cursor-pointer"
-                            >
-                                {t("settings.confirmDeleteBtn")}
-                            </button>
-                            <button
-                                onClick={() => setShowDeleteConfirm(false)}
-                                className="px-4 py-2 text-sm rounded border hover:bg-gray-50 transition-colors cursor-pointer"
-                            >
-                                {t("settings.cancel")}
-                            </button>
+                    {!showDeleteConfirm ? (
+                        <Button
+                            variant="outline"
+                            onClick={() => setShowDeleteConfirm(true)}
+                            className="cursor-pointer border-red-300 text-red-500 hover:bg-red-50 hover:text-red-600"
+
+                        >
+                            {t("settings.deleteAccount")}
+                        </Button>
+                    ) : (
+                        <div className="flex flex-col gap-3">
+                            <p className="text-sm font-medium text-red-600">
+                                {t("settings.confirmDelete")}
+                            </p>
+                            <div className="flex gap-2">
+                                <Button
+                                    onClick={handleDelete}
+                                    className="cursor-pointer bg-red-600 hover:bg-red-700 text-white"
+                                >
+                                    {t("settings.confirmDeleteBtn")}
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    onClick={() => setShowDeleteConfirm(false)}
+                                    className="cursor-pointer"
+
+                                >
+                                    {t("settings.cancel")}
+                                </Button>
+                            </div>
                         </div>
-                    </div>
-                )}
-            </div>
+                    )}
+                </CardContent>
+            </Card>
         </div>
     );
 }

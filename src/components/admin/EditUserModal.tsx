@@ -6,6 +6,14 @@ import { useAuthStore } from "@/store/authStore";
 import type { User } from "@/types/User";
 import UserForm from "@/components/UserForm";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 
 interface Props {
     user: User;
@@ -35,15 +43,15 @@ export default function EditUserModal({ user, onClose, onUpdated }: Props) {
     };
 
     return (
-        <div
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-            onClick={onClose}
-        >
-            <div
-                className="bg-white rounded shadow-lg w-full max-w-md p-6"
-                onClick={(e) => e.stopPropagation()}
+        <Dialog open onOpenChange={onClose}>
+            <DialogContent
+                className="p-8"
+                aria-describedby={undefined}
+                onOpenAutoFocus={(e) => e.preventDefault()}
             >
-                <h3 className="text-lg font-bold mb-4">{t("admin.editModal.title")}</h3>
+                <DialogHeader>
+                    <DialogTitle className="text-xl font-semibold">{t("admin.editModal.title")}</DialogTitle>
+                </DialogHeader>
 
                 <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -51,24 +59,28 @@ export default function EditUserModal({ user, onClose, onUpdated }: Props) {
                         <UserForm />
 
                         <div className="flex gap-2 justify-end mt-2">
-                            <button
+                            <Button
+                                size="lg"
                                 type="button"
+                                variant="outline"
                                 onClick={onClose}
-                                className="px-4 py-2 text-sm rounded border hover:bg-gray-50 transition-colors cursor-pointer"
+                                className="cursor-pointer"
                             >
                                 {t("admin.editModal.cancel")}
-                            </button>
-                            <button
+                            </Button>
+                            <Button
+                                size="lg"
                                 type="submit"
                                 disabled={isSubmitting || !isDirty}
-                                className="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-not-allowed"
+                                className="bg-blue-600 hover:bg-blue-500 cursor-pointer"
                             >
+                                {isSubmitting && <Loader2 className="animate-spin" />}
                                 {isSubmitting ? t("admin.editModal.saving") : t("admin.editModal.save")}
-                            </button>
+                            </Button>
                         </div>
                     </form>
                 </FormProvider>
-            </div>
-        </div>
+            </DialogContent>
+        </Dialog>
     );
 }
