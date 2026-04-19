@@ -12,7 +12,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type StatusFilter = "all" | "active" | "inactive";
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 4;
 
 
 export default function AdminDashboardPage() {

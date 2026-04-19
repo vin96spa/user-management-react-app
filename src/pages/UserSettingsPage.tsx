@@ -75,7 +75,7 @@ export default function UserSettingsPage() {
     };
 
     return (
-        <div className="max-w-lg">
+        <div className="max-w-lg flex flex-col mx-auto">
             <h2 className="text-2xl font-bold mb-6">{t("settings.title")}</h2>
 
             {apiError && (
