@@ -8,6 +8,7 @@ import RegisterPage from "@/pages/RegisterPage";
 import UserSettingsPage from "@/pages/UserSettingsPage";
 import AdminDashboardPage from "@/pages/admin/AdminDashboardPage";
 import ProtectedRoute from "./ProtectedRoute";
+import NotFoundPage from "@/pages/NotFoundPage";
 
 function withMainLayout(page: React.ReactNode) {
     return <MainLayout>{page}</MainLayout>;
@@ -44,6 +45,8 @@ export default function AppRouter() {
                 <Route path="/admin/dashboard" element={
                     <ProtectedRoute requireAdmin>{withMainLayout(<AdminDashboardPage />)}</ProtectedRoute>
                 } />
+                {/* Not Found */}
+                <Route path="*" element={withPublicLayout(<NotFoundPage />)} />
             </Routes>
         </BrowserRouter>
     );

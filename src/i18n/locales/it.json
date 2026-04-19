@@ -124,5 +124,10 @@
         "unblockUserSuccess": "Utente sbloccato!",
         "postCreatedSuccess": "Post pubblicato!",
         "commentCreatedSuccess": "Commento pubblicato!"
+    },
+    "notFound": {
+        "title": "Pagina non trovata!",
+        "description": "Torna indietro!",
+        "back": "Indietro" 
     }
 }

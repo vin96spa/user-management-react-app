@@ -113,6 +113,11 @@
             "next": "Next"
         }
     },
+    "notFound": {
+        "title": "Page not Found!",
+        "description": "Get Back!",
+        "back": "Back"
+    },
     "common": {
         "error": "Something went wrong. Please try again.",
         "loginSuccess": "Logged in successfully!",
