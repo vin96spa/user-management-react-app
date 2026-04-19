@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { getUserByEmail } from "../api/users";
-import { useAuthStore } from "../store/authStore";
-import { type LoginFormData, loginSchema } from "../validations/loginSchema";
+import { getUserByEmail } from "@/api/users";
+import { useAuthStore } from "@/store/authStore";
+import { type LoginFormData, loginSchema } from "@/validations/loginSchema";
 
 export default function LoginPage() {
     const { t } = useTranslation();
@@ -81,7 +81,7 @@ export default function LoginPage() {
                             <input
                                 {...register("email")}
                                 type="email"
-                                placeholder="you@example.com"
+                                placeholder="you@/example.com"
                                 className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 placeholder:text-gray-300"
                             />
                             {errors.email && (

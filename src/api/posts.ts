@@ -1,6 +1,6 @@
 import { apiClient } from "./client";
-import { type CreatePostPayload } from "../types/Post";
-import { type Comment } from "../types/Post";
+import { type CreatePostPayload } from "@/types/Post";
+import { type Comment } from "@/types/Post";
 
 export const getAllPosts = (token: string) =>
     apiClient("/posts", { method: "GET" }, token);

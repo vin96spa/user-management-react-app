@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import MainLayout from "../layout/MainLayout";
-import PublicLayout from "../layout/PublicLayout";
-import PostsPage from "../pages/PostsPage";
-import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
-import UserSettingsPage from "../pages/UserSettingsPage";
-import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
+import MainLayout from "@/layout/MainLayout";
+import PublicLayout from "@/layout/PublicLayout";
+import PostsPage from "@/pages/PostsPage";
+import LoginPage from "@/pages/LoginPage";
+import RegisterPage from "@/pages/RegisterPage";
+import UserSettingsPage from "@/pages/UserSettingsPage";
+import AdminDashboardPage from "@/pages/admin/AdminDashboardPage";
 import ProtectedRoute from "./ProtectedRoute";
 
 function withMainLayout(page: React.ReactNode) {

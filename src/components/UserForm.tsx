@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import type { RegisterFormData } from "../validations/registerSchema";
+import type { RegisterFormData } from "@/validations/registerSchema";
 import { useTranslation } from "react-i18next";
 
 // useFormContext reads the form from context instead of receiving it as a prop

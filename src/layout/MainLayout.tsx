@@ -1,10 +1,10 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LogOut } from "lucide-react";
-import { useAuthStore } from "../store/authStore";
-import { getInitials } from "../utils/formatters";
-import LanguageSwitcher from "../components/ui/LanguageSwitcher";
-import { useLoader } from "../context/LoaderContext";
+import { useAuthStore } from "@/store/authStore";
+import { getInitials } from "@/utils/formatters";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
+import { useLoader } from "@/context/LoaderContext";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
     const { t } = useTranslation();

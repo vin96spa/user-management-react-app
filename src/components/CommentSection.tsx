@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { commentSchema, type CommentFormData } from "../validations/postSchema";
-import { getPostComments, createComment } from "../api/posts";
-import { useAuthStore } from "../store/authStore";
-import type { Comment } from "../types/Post";
+import { commentSchema, type CommentFormData } from "@/validations/postSchema";
+import { getPostComments, createComment } from "@/api/posts";
+import { useAuthStore } from "@/store/authStore";
+import type { Comment } from "@/types/Post";
 import { useTranslation } from "react-i18next";
-import { useLoader } from "../context/LoaderContext";
+import { useLoader } from "@/context/LoaderContext";
 
 interface Props {
     postId: number;

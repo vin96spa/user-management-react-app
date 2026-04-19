@@ -1,5 +1,5 @@
 import { apiClient } from "./client";
-import { type CreateUserPayload } from "../types/User";
+import { type CreateUserPayload } from "@/types/User";
 
 export const getUsers = () => apiClient("/users");
 

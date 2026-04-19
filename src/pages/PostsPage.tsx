@@ -1,6 +1,6 @@
 import { useState } from "react";
-import MyPostsTab from "../components/MyPostsTab";
-import AllPostsTab from "../components/AllPostsTab";
+import MyPostsTab from "@/components/MyPostsTab";
+import AllPostsTab from "@/components/AllPostsTab";
 import { useTranslation } from "react-i18next";
 
 type Tab = "mine" | "all";

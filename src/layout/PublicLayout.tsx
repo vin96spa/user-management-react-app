@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import LanguageSwitcher from "../components/ui/LanguageSwitcher";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
     return (

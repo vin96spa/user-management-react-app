@@ -1,10 +1,10 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema, type RegisterFormData } from "../../validations/registerSchema";
-import { updateUser } from "../../api/users";
-import { useAuthStore } from "../../store/authStore";
-import type { User } from "../../types/User";
-import UserForm from "../UserForm";
+import { registerSchema, type RegisterFormData } from "@/validations/registerSchema";
+import { updateUser } from "@/api/users";
+import { useAuthStore } from "@/store/authStore";
+import type { User } from "@/types/User";
+import UserForm from "@/components/UserForm";
 import { useTranslation } from "react-i18next";
 
 interface Props {

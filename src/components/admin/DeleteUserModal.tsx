@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { deleteUser } from "../../api/users";
-import { useAuthStore } from "../../store/authStore";
-import type { User } from "../../types/User";
-import { getInitials } from "../../utils/formatters";
+import { deleteUser } from "@/api/users";
+import { useAuthStore } from "@/store/authStore";
+import type { User } from "@/types/User";
+import { getInitials } from "@/utils/formatters";
 
 interface Props {
     user: User;

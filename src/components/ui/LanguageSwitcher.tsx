@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useLoader } from "../../context/LoaderContext";
+import { useLoader } from "@/context/LoaderContext";
 
 interface Props {
     variant?: "light" | "dark";

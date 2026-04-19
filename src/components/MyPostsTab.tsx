@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { useAuthStore } from "../store/authStore";
-import { getUserPosts } from "../api/posts";
-import type { Post } from "../types/Post";
+import { useAuthStore } from "@/store/authStore";
+import { getUserPosts } from "@/api/posts";
+import type { Post } from "@/types/Post";
 import PostCard from "./PostCard";
 import NewPostForm from "./NewPostForm";
 import { useTranslation } from "react-i18next";
-import { useLoader } from "../context/LoaderContext";
+import { useLoader } from "@/context/LoaderContext";
 
 export default function MyPostsTab() {
     const { t } = useTranslation();

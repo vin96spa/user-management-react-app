@@ -2,10 +2,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { type RegisterFormData, registerSchema } from "../validations/registerSchema";
-import { createUser } from "../api/users";
-import { useAuthStore } from "../store/authStore";
-import UserForm from "../components/UserForm";
+import { type RegisterFormData, registerSchema } from "@/validations/registerSchema";
+import { createUser } from "@/api/users";
+import { useAuthStore } from "@/store/authStore";
+import UserForm from "@/components/UserForm";
 import { FormProvider } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -19,7 +19,7 @@ export default function RegisterPage() {
 
     const generateEmail = (name: string) => {
         const normalized = name.toLowerCase().replace(/\s+/g, ".");
-        return `${normalized}.${Math.floor(Math.random() * 10000)}@test.com`;
+        return `${normalized}.${Math.floor(Math.random() * 10000)}@/test.com`;
     };
 
     const methods = useForm<RegisterFormData>({

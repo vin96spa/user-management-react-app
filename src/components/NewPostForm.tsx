@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuthStore } from "../store/authStore";
-import { type Post } from "../types/Post";
-import { createPost } from "../api/posts";
-import { type PostFormData, postSchema } from "../validations/postSchema";
+import { useAuthStore } from "@/store/authStore";
+import { type Post } from "@/types/Post";
+import { createPost } from "@/api/posts";
+import { type PostFormData, postSchema } from "@/validations/postSchema";
 import { useTranslation } from "react-i18next";
 
 interface Props {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Post } from "../types/Post";
+import type { Post } from "@/types/Post";
 import CommentSection from "./CommentSection";
 import { useTranslation } from "react-i18next";
 

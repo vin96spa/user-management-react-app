@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getUserById, updateUser, deleteUser } from "../api/users";
-import { useAuthStore } from "../store/authStore";
-import { type RegisterFormData, registerSchema } from "../validations/registerSchema";
-import UserForm from "../components/UserForm";
+import { getUserById, updateUser, deleteUser } from "@/api/users";
+import { useAuthStore } from "@/store/authStore";
+import { type RegisterFormData, registerSchema } from "@/validations/registerSchema";
+import UserForm from "@/components/UserForm";
 import { FormProvider } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useLoader } from "../context/LoaderContext";
+import { useLoader } from "@/context/LoaderContext";
 
 export default function UserSettingsPage() {
     const { t } = useTranslation();
